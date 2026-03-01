@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>IT-Сервис: Диагностика</title>
+    <hta:application 
+        id="oHTA"
+        applicationname="DiskChecker"
+        border="thin"
+        caption="yes"
+        showintaskbar="yes"
+        singleinstance="yes"
+        sysmenu="yes"
+        windowstate="normal"
+        scroll="yes"
+    >
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; padding: 20px; text-align: center; margin: 0; }
+        .card { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        h2 { color: #333; }
+        button { 
+            background: #0078d4; color: white; border: none; 
+            padding: 12px 25px; cursor: pointer; border-radius: 4px; font-size: 16px;
+            transition: background 0.2s;
+        }
+        button:hover { background: #005a9e; }
+        #output { 
+            margin-top: 20px; text-align: left; background: #1e1e1e; 
+            color: #00ff00; padding: 15px; border-radius: 5px; 
+            font-family: 'Consolas', monospace; white-space: pre-wrap;
+            display: none; border: 1px solid #444;
+            font-size: 14px;
+        }
+        .loader { color: #666; font-style: italic; display: none; margin-top: 10px; }
+    </style>
+
+    <script>
+        function checkDiskType() {
+            var output = document.getElementById("output");
+            var loader = document.getElementById("loader");
+            
+            output.style.display = "none";
+            loader.style.display = "block";
+
+            try {
+                // Используем оболочку Windows для запуска PowerShell
+                var shell = new ActiveXObject("WScript.Shell");
+                
+                // Команда: получаем модель диска и тип (HDD/SSD)
+                var command = "powershell -NoProfile -Command \"Get-PhysicalDisk | Select-Object FriendlyName, MediaType | Out-String\"";
+                
+                var exec = shell.Exec(command);
+                var result = exec.StdOut.ReadAll();
+
+                if (result.trim() === "") {
+                    result = "Диски не найдены или требуется запуск от имени Администратора.";
+                }
+
+                output.innerText = result;
+                output.style.display = "block";
+            } catch (e) {
+                alert("Ошибка доступа: " + e.message + "\nПопробуйте запустить файл от имени Администратора.");
+            } finally {
+                loader.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="card">
+    <h2>Сервис настройки Windows</h2>
+    <p>Нажмите кнопку, чтобы определить тип накопителей в системе</p>
+    
+    <button onclick="checkDiskType()">Определить тип диска</button>
+    
+    <div id="loader">Пожалуйста, подождите, сканирую систему...</div>
+    <div id="output"></div>
+</div>
+
+</body>
+</html>
