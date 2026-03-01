@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Діагностика: Температура ПК</title>
+    <hta:application 
+        id="oHTA"
+        applicationname="TempChecker"
+        border="thin"
+        caption="yes"
+        showintaskbar="yes"
+        singleinstance="yes"
+        sysmenu="yes"
+        windowstate="normal"
+        scroll="yes"
+    >
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; padding: 20px; text-align: center; margin: 0; }
+        .card { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 700px; margin: auto; }
+        h2 { color: #333; margin-top: 0; }
+        button { 
+            background: #28a745; color: white; border: none; 
+            padding: 12px 25px; cursor: pointer; border-radius: 4px; font-size: 16px; font-weight: bold;
+            transition: background 0.2s; box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+        }
+        button:hover { background: #218838; }
+        #output { 
+            margin-top: 25px; text-align: left; background: #1e1e1e; 
+            color: #ffffff; padding: 20px; border-radius: 8px; 
+            font-family: 'Segoe UI', sans-serif;
+            display: none; border: 1px solid #444; font-size: 15px; line-height: 1.8;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .temp-row { padding: 8px 0; border-bottom: 1px dashed #444; }
+        .temp-row:last-child { border-bottom: none; }
+        .temp-name { color: #00a4ef; font-weight: bold; }
+        .temp-val { font-family: monospace; font-size: 16px; margin: 0 10px; }
+        .status-ok { color: #28a745; }
+        .status-warn { color: #ffc107; }
+        .status-high { color: #fd7e14; }
+        .status-crit { color: #dc3545; font-weight: bold; }
+    </style>
+
+    <script>
+        function checkTemp() {
+            var output = document.getElementById("output");
+            output.style.display = "block";
+            output.innerHTML = "<div style='text-align:center; color:#888;'>Сканування датчиків материнської плати...<br><small>(Це може зайняти кілька секунд)</small></div>";
+
+            try {
+                var shell = new ActiveXObject("WScript.Shell");
+                var cmd = "powershell -NoProfile -Command \"try { $t = Get-WmiObject MSAcpi_ThermalZoneTemperature -Namespace 'root/wmi' -ErrorAction Stop; if ($t) { foreach ($item in $t) { $c = ($item.CurrentTemperature / 10) - 273.15; $n = $item.InstanceName; Write-Output ($n + '|' + [math]::Round($c, 1)) } } else { Write-Output 'NONE' } } catch { Write-Output 'ERROR' }\"";
+                
+                var exec = shell.Exec(cmd);
+                var result = exec.StdOut.ReadAll().replace(/\r/g, "");
+                var lines = result.split('\n');
+                var htmlText = "";
+                var sensorCount = 1;
+
+                for(var i = 0; i < lines.length; i++) {
+                    var val = lines[i].replace(/^\s+|\s+$/g, '');
+                    if (val === "NONE") {
+                        htmlText = "<div style='color:#dc3545'>Датчики температури не знайдені або заблоковані виробником ноутбука/плати.</div>";
+                        break;
+                    } else if (val === "ERROR") {
+                        htmlText = "<div style='color:#fd7e14'>Помилка доступу. Закрийте вікно, натисніть на файл правою кнопкою миші та виберіть <b>Запуск від імені адміністратора</b>.</div>";
+                        break;
+                    } else if (val !== "") {
+                        var parts = val.split('|');
+                        if(parts.length === 2) {
+                            var rawName = parts[0];
+                            var temp = parseFloat(parts[1]);
+                            var displayName = "";
+
+                            // Розумне визначення назви
+                            var upperName = rawName.toUpperCase();
+                            if (upperName.indexOf("CPU") !== -1 || upperName.indexOf("PROCESSOR") !== -1) {
+                                displayName = "Процесор (CPU)";
+                            } else if (upperName.indexOf("VGA") !== -1 || upperName.indexOf("GPU") !== -1) {
+                                displayName = "Відеокарта (GPU)";
+                            } else {
+                                displayName = "Датчик плати #" + sensorCount;
+                                sensorCount++;
+                            }
+
+                            // Оцінка температури
+                            var statusText = "";
+                            var statusClass = "";
+
+                            if (temp <= 0 || temp >= 120) {
+                                statusText = "⚠️ Датчик неактивний";
+                                statusClass = "status-warn";
+                            } else if (temp < 45) {
+                                statusText = "🟢 Відмінно (Холодний)";
+                                statusClass = "status-ok";
+                            } else if (temp >= 45 && temp < 65) {
+                                statusText = "🟢 Норма (Робоча температура)";
+                                statusClass = "status-ok";
+                            } else if (temp >= 65 && temp < 75) {
+                                statusText = "🟡 Підвищена (Норма в іграх)";
+                                statusClass = "status-warn";
+                            } else if (temp >= 75 && temp < 85) {
+                                statusText = "🟠 Висока! (Рекомендується чистка від пилу)";
+                                statusClass = "status-high";
+                            } else if (temp >= 85) {
+                                statusText = "🔴 КРИТИЧНО! (Негайна заміна термопасти!)";
+                                statusClass = "status-crit";
+                            }
+
+                            htmlText += "<div class='temp-row'>";
+                            htmlText += "<span class='temp-name'>🌡️ " + displayName + "</span>";
+                            htmlText += "<span class='temp-val'>" + temp.toFixed(1) + " °C</span>";
+                            htmlText += "<span class='" + statusClass + "'>➜ " + statusText + "</span>";
+                            htmlText += "</div>";
+                        }
+                    }
+                }
+
+                if (htmlText === "") {
+                    htmlText = "<div style='color:#fd7e14'>Дані недоступні. Ваша материнська плата блокує прямий доступ через Windows.</div>";
+                }
+
+                output.innerHTML = htmlText;
+            } catch (e) {
+                output.innerHTML = "<div style='color:red'>Помилка системи: " + e.message + "</div>";
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="card">
+    <h2>Центр діагностики температур</h2>
+    <p>Натисніть кнопку нижче, щоб система опитала датчики вашого ПК.</p>
+    <p style="font-size: 13px; color: #666; background: #f9f9f9; padding: 10px; border-radius: 5px; text-align: left;">
+        ℹ️ <b>Примітка:</b> Цей модуль використовує вбудовані засоби Windows. Деякі виробники (особливо в ноутбуках) приховують точні назви (CPU/GPU), тому вони можуть відображатися як "Датчик плати".
+    </p>
+    
+    <button onclick="checkTemp()">Виміряти температуру зараз</button>
+    <div id="output"></div>
+</div>
+
+</body>
+</html>
