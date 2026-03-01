@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Діагностика: Оперативна пам'ять (ОЗП)</title>
+    <hta:application id="oHTA" applicationname="RamCheck" border="thin" caption="yes" showintaskbar="yes" singleinstance="yes" sysmenu="yes" windowstate="normal" scroll="yes">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; padding: 20px; text-align: center; }
+        .card { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        button { background: #6f42c1; color: white; border: none; padding: 12px 25px; cursor: pointer; border-radius: 4px; font-size: 16px; font-weight: bold; }
+        button:hover { background: #59359a; }
+        #output { margin-top: 25px; text-align: left; background: #1e1e1e; color: #fff; padding: 20px; border-radius: 8px; font-size: 15px; display: none; }
+    </style>
+    <script>
+        function checkRAM() {
+            var out = document.getElementById("output"); out.style.display = "block"; out.innerHTML = "Аналіз пам'яті...";
+            try {
+                var shell = new ActiveXObject("WScript.Shell");
+                var cmd = "powershell -NoProfile -Command \"$os = Get-CimInstance Win32_OperatingSystem; $total = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2); $free = [math]::Round($os.FreePhysicalMemory / 1MB, 2); Write-Output ($total.ToString() + '|' + $free.ToString() )\"";
+                var exec = shell.Exec(cmd);
+                var res = exec.StdOut.ReadAll().replace(/\r/g, "").trim();
+                
+                if(res !== "") {
+                    var parts = res.split('|');
+                    var total = parseFloat(parts[0]); var free = parseFloat(parts[1]);
+                    var used = total - free;
+                    var percent = Math.round((used / total) * 100);
+                    
+                    var html = "<div><b>Всього пам'яті:</b> " + total.toFixed(1) + " ГБ</div>";
+                    html += "<div><b>Вільно зараз:</b> " + free.toFixed(1) + " ГБ</div>";
+                    html += "<div><b>Завантаженість:</b> " + percent + "%</div><br>";
+                    
+                    if(total < 4) {
+                        html += "<span style='color:#dc3545'>🔴 У вас менше 4 ГБ пам'яті. ПК буде сильно гальмувати. Рекомендується додати ОЗП!</span>";
+                    } else if (percent > 85) {
+                        html += "<span style='color:#fd7e14'>🟠 Пам'ять перевантажена! Закрийте зайві програми або викличте майстра для оптимізації системи.</span>";
+                    } else {
+                        html += "<span style='color:#28a745'>🟢 Обсяг пам'яті в нормі.</span>";
+                    }
+                    out.innerHTML = html;
+                }
+            } catch(e) { out.innerHTML = "<span style='color:red'>Помилка: " + e.message + "</span>"; }
+        }
+    </script>
+</head>
+<body>
+<div class="card">
+    <h2>Перевірка пам'яті (ОЗП)</h2>
+    <p>Дізнайтеся, чому зависає комп'ютер та чи вистачає йому пам'яті.</p>
+    <button onclick="checkRAM()">Перевірити пам'ять</button>
+    <div id="output"></div>
+</div>
+</body>
+</html>

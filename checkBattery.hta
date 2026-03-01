@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Діагностика: Знос батареї</title>
+    <hta:application id="oHTA" applicationname="BatCheck" border="thin" caption="yes" showintaskbar="yes" singleinstance="yes" sysmenu="yes" windowstate="normal" scroll="yes">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; padding: 20px; text-align: center; }
+        .card { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; margin: auto; }
+        button { background: #e83e8c; color: white; border: none; padding: 12px 25px; cursor: pointer; border-radius: 4px; font-size: 16px; font-weight: bold; }
+        button:hover { background: #d32571; }
+        #output { margin-top: 25px; text-align: left; background: #1e1e1e; color: #fff; padding: 20px; border-radius: 8px; font-size: 15px; display: none; }
+    </style>
+    <script>
+        function checkBat() {
+            var out = document.getElementById("output"); out.style.display = "block"; out.innerHTML = "Читання контролера батареї...";
+            try {
+                var shell = new ActiveXObject("WScript.Shell");
+                var cmd = "powershell -NoProfile -Command \"try { $f = (Get-WmiObject -Class BatteryFullChargedCapacity -Namespace root\\wmi).FullChargedCapacity; $d = (Get-WmiObject -Class BatteryStaticData -Namespace root\\wmi).DesignedCapacity; Write-Output ($d.ToString() + '|' + $f.ToString()) } catch { Write-Output 'NOBAT' }\"";
+                var exec = shell.Exec(cmd);
+                var res = exec.StdOut.ReadAll().replace(/\r/g, "").trim();
+                
+                if(res === "NOBAT" || res === "") {
+                    out.innerHTML = "<span style='color:#fd7e14'>Батарею не знайдено. Це стаціонарний ПК або контролер акумулятора пошкоджено.</span>";
+                } else {
+                    var parts = res.split('|');
+                    var design = parseInt(parts[0]); var full = parseInt(parts[1]);
+                    var wear = 100 - ((full / design) * 100);
+                    if(wear < 0) wear = 0; // Захист від глюків контролера
+                    
+                    var html = "<div><b>Заводська ємність:</b> " + design + " mWh</div>";
+                    html += "<div><b>Поточна максимальна ємність:</b> " + full + " mWh</div>";
+                    html += "<div><b>Ступінь зносу:</b> <span style='font-size:18px; font-weight:bold;'>" + wear.toFixed(1) + "%</span></div><br>";
+                    
+                    if(wear > 40) {
+                        html += "<span style='color:#dc3545'>🔴 КРИТИЧНО! Батарея сильно зношена. Вона може раптово вимикати ноутбук. Потрібна заміна!</span>";
+                    } else if (wear > 20) {
+                        html += "<span style='color:#fd7e14'>🟡 Середній знос. Батарея тримає гірше, ніж нова.</span>";
+                    } else {
+                        html += "<span style='color:#28a745'>🟢 Відмінно. Акумулятор у хорошому стані.</span>";
+                    }
+                    out.innerHTML = html;
+                }
+            } catch(e) { out.innerHTML = "<span style='color:red'>Помилка: " + e.message + "</span>"; }
+        }
+    </script>
+</head>
+<body>
+<div class="card">
+    <h2>Перевірка зносу батареї</h2>
+    <p>Дізнайтеся реальний стан акумулятора вашого ноутбука.</p>
+    <button onclick="checkBat()">Виміряти знос</button>
+    <div id="output"></div>
+</div>
+</body>
+</html>
