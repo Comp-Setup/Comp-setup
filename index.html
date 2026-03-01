@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Установка Windows (Віндовс) Миколаїв | Настройка, Оптимізація та Ремонт ПК</title>
+    <title>Установка Windows (Віндовс) та Linux Миколаїв (Николаев) | Настройка, Оптимізація, Активація</title>
     
     <meta name="description" content="Професійна установка Windows (XP/7/8/10/11) та Linux у Миколаєві. Виїзд Корабельний район, область. Настройка, оптимізація, драйвери та відновлення даних.">
     <meta name="keywords" content="установка виндовс николаев, установка віндовс миколаїв, переустановка windows николаев, настройка виндовс корабельный район, ремонт компьютеров николаев, установка драйверов, восстановление данных николаев, загрузочная флешка windows купить">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <meta property="og:title" content="Установка Windows та Linux Миколаїв | Професійна Настройка ПК">
+    <meta property="og:description" content="Швидка комп'ютерна допомога, установка ОС, драйверів та софту. Виїзд по Миколаєву та області.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://https://comp-setup.github.io/Comp-setup/reklamaFoto.jpg">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Установка Windows та Linux Миколаїв | Настройка ПК">
+    <meta name="twitter:description" content="Швидка комп'ютерна допомога, установка ОС, драйверів та софту. Виїзд по Миколаєву та області.">
+    <meta name="twitter:image" content="https://ТВІЙ_ЛОГІН.github.io/My-Site-Windows/reklamaFoto.jpg">
 
     <style>
         /* Плавний перехід (скрол) для всієї сторінки */
@@ -225,6 +239,30 @@
 
         .btn-main:hover { background: var(--accent-hover); box-shadow: 0 15px 30px rgba(0, 164, 239, 0.5); }
 
+        /* --- СТИЛІ ТА ПІДСВІТКА ДЛЯ КНОПОК ДІАГНОСТИКИ --- */
+        .btn-diag { font-size: 15px; padding: 12px 25px; }
+
+        .btn-hdd { background: var(--accent); box-shadow: 0 5px 15px rgba(0, 164, 239, 0.3); }
+        .btn-hdd:hover { background: var(--accent-hover); box-shadow: 0 10px 25px rgba(0, 164, 239, 0.7); }
+
+        .btn-temp { background: #28a745; box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3); }
+        .btn-temp:hover { background: #218838; box-shadow: 0 10px 25px rgba(40, 167, 69, 0.7); }
+
+        .btn-smart { background: #dc3545; box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3); }
+        .btn-smart:hover { background: #c82333; box-shadow: 0 10px 25px rgba(220, 53, 69, 0.7); }
+
+        .btn-ram { background: #6f42c1; box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3); }
+        .btn-ram:hover { background: #5a32a3; box-shadow: 0 10px 25px rgba(111, 66, 193, 0.7); }
+
+        .btn-bat { background: #e83e8c; box-shadow: 0 5px 15px rgba(232, 62, 140, 0.3); }
+        .btn-bat:hover { background: #d32571; box-shadow: 0 10px 25px rgba(232, 62, 140, 0.7); }
+
+        .btn-key { background: #fd7e14; box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3); }
+        .btn-key:hover { background: #e36a0b; box-shadow: 0 10px 25px rgba(253, 126, 20, 0.7); }
+
+        .btn-sys { background: #17a2b8; box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3); }
+        .btn-sys:hover { background: #138496; box-shadow: 0 10px 25px rgba(23, 162, 184, 0.7); }
+
         .footer { text-align: center; padding: 60px; color: #666; font-size: 14px; }
         strong { color: var(--accent); }
 
@@ -438,13 +476,13 @@
         <p>Скачайте наші модулі для швидкої перевірки стану вашого ПК. Вони працюють миттєво і не потребують установки.</p>
         <br>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-            <a href="indexWindows.hta" download="indexWindows.hta" class="btn-main" style="font-size: 15px; padding: 12px 25px;">💾 Тип диска (SSD/HDD)</a>
-            <a href="checkTemp.hta" download="checkTemp.hta" class="btn-main" style="background: #28a745; box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3); font-size: 15px; padding: 12px 25px;">🌡️ Температура</a>
-            <a href="checkSmart.hta" download="checkSmart.hta" class="btn-main" style="background: #dc3545; box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3); font-size: 15px; padding: 12px 25px;">💽 Здоров'я диска (S.M.A.R.T)</a>
-            <a href="checkRAM.hta" download="checkRAM.hta" class="btn-main" style="background: #6f42c1; box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3); font-size: 15px; padding: 12px 25px;">🚀 Аналіз ОЗП (Пам'ять)</a>
-            <a href="checkBattery.hta" download="checkBattery.hta" class="btn-main" style="background: #e83e8c; box-shadow: 0 5px 15px rgba(232, 62, 140, 0.3); font-size: 15px; padding: 12px 25px;">🔋 Знос батареї</a>
-            <a href="checkKey.hta" download="checkKey.hta" class="btn-main" style="background: #fd7e14; box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3); font-size: 15px; padding: 12px 25px;">🔑 Вшитий ключ Windows</a>
-            <a href="checkSysInfo.hta" download="checkSysInfo.hta" class="btn-main" style="background: #17a2b8; box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3); font-size: 15px; padding: 12px 25px;">💻 Характеристики ПК</a>
+            <a href="indexWindows.hta" download="indexWindows.hta" class="btn-main btn-diag btn-hdd">💾 Тип диска (SSD/HDD)</a>
+            <a href="checkTemp.hta" download="checkTemp.hta" class="btn-main btn-diag btn-temp">🌡️ Температура</a>
+            <a href="checkSmart.hta" download="checkSmart.hta" class="btn-main btn-diag btn-smart">💽 Здоров'я диска (S.M.A.R.T)</a>
+            <a href="checkRAM.hta" download="checkRAM.hta" class="btn-main btn-diag btn-ram">🚀 Аналіз ОЗП (Пам'ять)</a>
+            <a href="checkBattery.hta" download="checkBattery.hta" class="btn-main btn-diag btn-bat">🔋 Знос батареї</a>
+            <a href="checkKey.hta" download="checkKey.hta" class="btn-main btn-diag btn-key">🔑 Вшитий ключ Windows</a>
+            <a href="checkSysInfo.hta" download="checkSysInfo.hta" class="btn-main btn-diag btn-sys">💻 Характеристики ПК</a>
         </div>
     </div>
 
