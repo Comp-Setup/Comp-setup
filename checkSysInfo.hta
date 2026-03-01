@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Діагностика: Характеристики ПК</title>
+    <hta:application id="oHTA" applicationname="SysInfoCheck" border="thin" caption="yes" showintaskbar="yes" singleinstance="yes" sysmenu="yes" windowstate="normal" scroll="yes">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; padding: 20px; text-align: center; margin: 0; }
+        .card { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 650px; margin: auto; }
+        h2 { color: #333; margin-top: 0; }
+        button { 
+            background: #17a2b8; color: white; border: none; 
+            padding: 12px 25px; cursor: pointer; border-radius: 4px; font-size: 16px; font-weight: bold;
+            transition: background 0.2s; box-shadow: 0 4px 10px rgba(23, 162, 184, 0.3);
+        }
+        button:hover { background: #138496; }
+        #output { 
+            margin-top: 25px; text-align: left; background: #1e1e1e; 
+            color: #fff; padding: 20px; border-radius: 8px; 
+            font-size: 15px; display: none; border: 1px solid #444;
+        }
+        .info-row { padding: 10px 0; border-bottom: 1px dashed #444; display: flex; align-items: center; }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #17a2b8; font-weight: bold; width: 150px; flex-shrink: 0; }
+        .info-val { font-family: 'Consolas', monospace; font-size: 15px; color: #e0e0e0; word-break: break-word; }
+    </style>
+    <script>
+        function checkSys() {
+            var out = document.getElementById("output"); 
+            out.style.display = "block"; 
+            out.innerHTML = "<div style='text-align:center; color:#888;'>Збір інформації про систему...</div>";
+            
+            try {
+                var shell = new ActiveXObject("WScript.Shell");
+                // Скрипт збирає всі ключові дані через WMI
+                var cmd = "powershell -NoProfile -Command \"$os = Get-WmiObject Win32_OperatingSystem; $cs = Get-WmiObject Win32_ComputerSystem; $cpu = Get-WmiObject Win32_Processor | Select-Object -First 1; $gpu = (Get-WmiObject Win32_VideoController | Select-Object -ExpandProperty Name) -join ' + '; $ram = [math]::Round($cs.TotalPhysicalMemory / 1GB, 1); Write-Output ('OS|' + $os.Caption + ' ' + $os.OSArchitecture + '~~MODEL|' + $cs.Manufacturer + ' ' + $cs.Model + '~~CPU|' + $cpu.Name + '~~RAM|' + $ram + ' ГБ~~GPU|' + $gpu)\"";
+                
+                var exec = shell.Exec(cmd);
+                var res = exec.StdOut.ReadAll().replace(/\r/g, "").replace(/\n/g, "").trim();
+                
+                if(res) {
+                    var items = res.split('~~');
+                    var html = "";
+                    var labels = {
+                        "OS": "💻 Система (ОС)", 
+                        "MODEL": "🏷️ Модель / Плата", 
+                        "CPU": "⚙️ Процесор", 
+                        "RAM": "🚀 ОЗП (Пам'ять)", 
+                        "GPU": "🎮 Відеокарта"
+                    };
+                    
+                    for(var i = 0; i < items.length; i++) {
+                        var parts = items[i].split('|');
+                        if(parts.length === 2) {
+                            var key = parts[0];
+                            var val = parts[1].replace(/ {2,}/g, ' '); // Прибираємо зайві пробіли
+                            html += "<div class='info-row'><span class='info-label'>" + (labels[key] || key) + ":</span> <span class='info-val'>" + val + "</span></div>";
+                        }
+                    }
+                    out.innerHTML = html;
+                } else {
+                    out.innerHTML = "<span style='color:#fd7e14'>Не вдалося отримати дані. Система блокує доступ.</span>";
+                }
+            } catch(e) { 
+                out.innerHTML = "<span style='color:red'>Помилка: " + e.message + "</span>"; 
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="card">
+    <h2>Характеристики ПК</h2>
+    <p>Натисніть кнопку, щоб дізнатися точну модель вашого пристрою та його комплектуючі.</p>
+    <button onclick="checkSys()">Показати характеристики</button>
+    <div id="output"></div>
+</div>
+</body>
+</html>
