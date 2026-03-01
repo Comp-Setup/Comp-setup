@@ -37,6 +37,7 @@
             --glass: rgba(255, 255, 255, 0.1);
             --viber: #7360f2;
             --telegram: #0088cc;
+            --whatsapp: #25d366;
             --phone: #d44638;
             --email: #2c3e50;
         }
@@ -69,6 +70,21 @@
 
         h1 { font-size: 3rem; margin: 10px 0; letter-spacing: -1px; }
         .subtitle { font-size: 1.2rem; color: #ccc; max-width: 700px; margin: 0 auto; }
+
+        /* Графік роботи в шапці */
+        .work-hours {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 25px;
+            background: rgba(0, 164, 239, 0.1);
+            border: 1px solid rgba(0, 164, 239, 0.3);
+            border-radius: 30px;
+            font-size: 16px;
+            color: #fff;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .work-hours span { font-weight: bold; color: #28a745; text-shadow: 0 0 10px rgba(40, 167, 69, 0.5); }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
 
@@ -136,6 +152,9 @@
         
         .telegram { background: var(--telegram); box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4); }
         .telegram:hover { background: #0077b3; box-shadow: 0 10px 25px rgba(0, 136, 204, 0.7); }
+
+        .whatsapp { background: var(--whatsapp); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); color: #fff; }
+        .whatsapp:hover { background: #20b858; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.7); color: #fff; }
         
         .phone { background: var(--phone); box-shadow: 0 5px 15px rgba(212, 70, 56, 0.4); }
         .phone:hover { background: #b23a2f; box-shadow: 0 10px 25px rgba(212, 70, 56, 0.7); }
@@ -164,7 +183,6 @@
             font-size: 15px;
             color: #ddd;
         }
-
         .info-tip a { color: var(--accent); text-decoration: none; font-weight: bold; }
         .info-tip a:hover { text-decoration: underline; }
 
@@ -188,31 +206,36 @@
             border-radius: 12px;
             border-left: 4px solid #ff4d4d;
         }
-        .sos-card h4 {
-            color: #ff4d4d;
-            margin-top: 0;
-            text-transform: uppercase;
-            font-size: 14px;
+        .sos-card h4 { color: #ff4d4d; margin-top: 0; text-transform: uppercase; font-size: 14px; }
+        .sos-card p { font-size: 14px; margin-bottom: 0; color: #eee; }
+        .sos-card a { color: var(--accent); font-weight: bold; text-decoration: none; }
+        .sos-card a:hover { text-decoration: underline; }
+        .sos-title { text-align: center; color: #ff4d4d; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* FAQ Section */
+        .faq-box { margin-top: 20px; }
+        details {
+            background: var(--card-bg);
+            border: 1px solid var(--glass);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            padding: 15px 20px;
+            transition: all 0.3s ease;
         }
-        .sos-card p {
-            font-size: 14px;
-            margin-bottom: 0;
-            color: #eee;
-        }
-        .sos-card a {
-            color: var(--accent);
+        details[open] { border-color: var(--accent); background: rgba(0, 164, 239, 0.05); }
+        summary {
             font-weight: bold;
-            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            list-style: none; /* Hide default arrow */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .sos-card a:hover {
-            text-decoration: underline;
-        }
-        .sos-title {
-            text-align: center;
-            color: #ff4d4d;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '+'; color: var(--accent); font-size: 20px; font-weight: normal; }
+        details[open] summary::after { content: '−'; }
+        details p { color: #ccc; font-size: 14px; margin-top: 15px; margin-bottom: 0; padding-top: 15px; border-top: 1px dashed var(--glass); line-height: 1.5; }
 
         .tools-area {
             text-align: center;
@@ -236,93 +259,89 @@
             cursor: pointer;
             border: none;
         }
-
         .btn-main:hover { background: var(--accent-hover); box-shadow: 0 15px 30px rgba(0, 164, 239, 0.5); }
 
-        /* --- СТИЛІ ТА ПІДСВІТКА ДЛЯ КНОПОК ДІАГНОСТИКИ --- */
+        /* Кнопки діагностики */
         .btn-diag { font-size: 15px; padding: 12px 25px; }
-
         .btn-hdd { background: var(--accent); box-shadow: 0 5px 15px rgba(0, 164, 239, 0.3); }
         .btn-hdd:hover { background: var(--accent-hover); box-shadow: 0 10px 25px rgba(0, 164, 239, 0.7); }
-
         .btn-temp { background: #28a745; box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3); }
         .btn-temp:hover { background: #218838; box-shadow: 0 10px 25px rgba(40, 167, 69, 0.7); }
-
         .btn-smart { background: #dc3545; box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3); }
         .btn-smart:hover { background: #c82333; box-shadow: 0 10px 25px rgba(220, 53, 69, 0.7); }
-
         .btn-ram { background: #6f42c1; box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3); }
         .btn-ram:hover { background: #5a32a3; box-shadow: 0 10px 25px rgba(111, 66, 193, 0.7); }
-
         .btn-bat { background: #e83e8c; box-shadow: 0 5px 15px rgba(232, 62, 140, 0.3); }
         .btn-bat:hover { background: #d32571; box-shadow: 0 10px 25px rgba(232, 62, 140, 0.7); }
-
         .btn-key { background: #fd7e14; box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3); }
         .btn-key:hover { background: #e36a0b; box-shadow: 0 10px 25px rgba(253, 126, 20, 0.7); }
-
         .btn-sys { background: #17a2b8; box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3); }
         .btn-sys:hover { background: #138496; box-shadow: 0 10px 25px rgba(23, 162, 184, 0.7); }
 
         .footer { text-align: center; padding: 60px; color: #666; font-size: 14px; }
         strong { color: var(--accent); }
 
-        /* --- НОВІ СТИЛІ ДЛЯ СПЛИВАЮЧОГО ВІКНА ПОШТИ --- */
+        /* Спливаюче вікно пошти */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999; opacity: 0; visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-box {
-            background: #111;
-            border: 1px solid var(--accent);
-            border-radius: 16px;
-            padding: 30px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 15px 40px rgba(0, 164, 239, 0.2);
-            transform: translateY(-20px);
-            transition: transform 0.3s ease;
+            background: #111; border: 1px solid var(--accent); border-radius: 16px;
+            padding: 30px; width: 90%; max-width: 400px; text-align: center;
+            position: relative; box-shadow: 0 15px 40px rgba(0, 164, 239, 0.2);
+            transform: translateY(-20px); transition: transform 0.3s ease;
         }
-        .modal-overlay.active .modal-box {
-            transform: translateY(0);
-        }
+        .modal-overlay.active .modal-box { transform: translateY(0); }
         .modal-close {
-            position: absolute;
-            top: 15px; right: 20px;
-            color: #888;
-            font-size: 28px;
-            cursor: pointer;
-            transition: 0.2s;
-            line-height: 1;
+            position: absolute; top: 15px; right: 20px; color: #888;
+            font-size: 28px; cursor: pointer; transition: 0.2s; line-height: 1;
         }
-        .modal-close:hover {
-            color: white;
-            transform: scale(1.1);
-        }
+        .modal-close:hover { color: white; transform: scale(1.1); }
         .email-display {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-family: monospace;
+            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;
+            margin-bottom: 20px; font-family: monospace; font-size: 16px;
+            border: 1px solid var(--glass); color: #fff; word-break: break-all;
+        }
+
+        /* Плаваюча кнопка Зв'язку */
+        .floating-action {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
             font-size: 16px;
-            border: 1px solid var(--glass);
-            color: #fff;
-            word-break: break-all;
+            box-shadow: 0 0 0 0 rgba(0, 164, 239, 0.7);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: pulse-ring 2s infinite;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .floating-action:hover {
+            transform: translateY(-5px);
+            background: var(--accent-hover);
+            animation: none;
+            box-shadow: 0 10px 25px rgba(0, 164, 239, 0.6);
+        }
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(0, 164, 239, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 164, 239, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 164, 239, 0); }
+        }
+        /* Сховати плаваючу кнопку на великих екранах, якщо потрібно, але вона корисна всюди */
+        @media (max-width: 600px) {
+            .floating-action { bottom: 20px; right: 20px; padding: 12px 20px; font-size: 14px; }
         }
     </style>
 </head>
@@ -332,6 +351,10 @@
     <div class="hero-badge">Корабельний район • Миколаїв • Виїзд в передмістя та область</div>
     <h1>Повернення техніки до життя</h1>
     <p class="subtitle">Установка Windows XP/7/8/10/11 та Linux. Роблю як для себе — якісно, швидко та з гарантією.</p>
+    
+    <div class="work-hours">
+        🕒 Працюю без вихідних: <span>08:00 — 20:00</span>
+    </div>
 </header>
 
 <div class="container">
@@ -390,6 +413,7 @@
     <div class="contact-buttons" id="contacts">
         <a href="viber://chat?number=%2B380507383133" class="btn-contact viber">Написати у Viber</a>
         <a href="https://t.me/+380507383133" class="btn-contact telegram">Написати у Telegram</a>
+        <a href="https://wa.me/380976648820" class="btn-contact whatsapp" target="_blank">Написати у WhatsApp</a>
         <a href="tel:+380976648820" class="btn-contact phone">Подзвонити (+380976648820 - Дмитрий)</a>
         <a href="mailto:Novikov666kherson@gmail.com" class="btn-contact email">Написати на пошту</a>
     </div>
@@ -438,6 +462,22 @@
             <li>Оберіть вашу флешку у списку та натисніть Enter.</li>
             <li>У меню оберіть потрібну ОС або пункт <strong>Live CD</strong> для порятунку файлів.</li>
         </ol>
+    </div>
+
+    <h2 style="text-align: center; margin-top: 80px;">Часті запитання</h2>
+    <div class="faq-box" style="max-width: 800px; margin: 0 auto;">
+        <details>
+            <summary>Чи збережуться мої фото та файли при перевстановленні Віндовс?</summary>
+            <p>Так! Я обов'язково запитую про важливі дані перед роботою. Усі ваші фотографії, документи та відео будуть перенесені на безпечний розділ диску, і ви нічого не втратите.</p>
+        </details>
+        <details>
+            <summary>Скільки часу займає установка системи?</summary>
+            <p>Зазвичай повна установка ОС разом із драйверами та базовими програмами займає від 1 до 2 годин, залежно від потужності вашого комп'ютера або ноутбука (чи встановлений там швидкий SSD диск).</p>
+        </details>
+        <details>
+            <summary>Чи встановлюєте ви Антивірус та драйвери?</summary>
+            <p>Звісно! Антивірусний захист, архіватор, відеоплеєр та абсолютно всі драйвери (для відеокарти, звуку, мережі) входять у послугу «Під ключ» абсолютно безкоштовно.</p>
+        </details>
     </div>
 
     <div class="sos-section">
@@ -536,6 +576,10 @@
         <a href="mailto:Novikov666kherson@gmail.com" class="btn-main" style="width: 100%; box-sizing: border-box; display: block; background: var(--email); padding: 12px; font-size: 16px; border: 1px solid rgba(255,255,255,0.1);" onclick="closeEmailModal()">📧 Відкрити в програмі</a>
     </div>
 </div>
+
+<a href="#contacts" class="floating-action">
+    💬 Зв'язатися
+</a>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
