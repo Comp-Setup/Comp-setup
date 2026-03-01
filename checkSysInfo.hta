@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Діагностика: Характеристики ПК</title>
+    <hta:application 
+        id="oHTA" 
+        applicationname="SysInfoCheck" 
+        border="thin" 
+        caption="yes" 
+        showintaskbar="yes" 
+        singleinstance="yes" 
+        sysmenu="yes" 
+        windowstate="normal" 
+        scroll="yes"
+    >
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f0f0; padding: 20px; text-align: center; margin: 0; }
+        .card { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 650px; margin: auto; }
+        h2 { color: #333; margin-top: 0; }
+        button { 
+            background: #17a2b8; color: white; border: none; 
+            padding: 12px 25px; cursor: pointer; border-radius: 4px; font-size: 16px; font-weight: bold;
+            transition: background 0.2s; box-shadow: 0 4px 10px rgba(23, 162, 184, 0.3);
+        }
+        button:hover { background: #138496; }
+        button:disabled { background: #888; cursor: not-allowed; box-shadow: none; }
+        #output { 
+            margin-top: 25px; text-align: left; background: #1e1e1e; 
+            color: #fff; padding: 20px; border-radius: 8px; 
+            font-size: 15px; display: none; border: 1px solid #444; min-height: 100px;
+        }
+        .info-row { padding: 12px 0; border-bottom: 1px dashed #444; display: flex; align-items: flex-start; }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #17a2b8; font-weight: bold; width: 150px; flex-shrink: 0; line-height: 1.4; }
+        .info-val { font-family: 'Consolas', monospace; font-size: 15px; color: #e0e0e0; word-break: break-word; line-height: 1.4; }
+    </style>
+    <script>
+        function checkSys() {
+            var out = document.getElementById("output"); 
+            var btn = document.getElementById("btnCheck");
+            
+            // Показуємо екран завантаження і блокуємо кнопку від подвійного кліку
+            out.style.display = "block"; 
+            out.innerHTML = "<div style='text-align:center; padding: 15px;'><h3 style='color:#17a2b8; margin:0;'>🔄 Глибоке сканування...</h3><p style='color:#aaa; font-size:14px; margin-top:10px;'>Опитуємо драйвери відеокарти та накопичувачів.<br>Зачекайте від 5 до 40 секунд.</p></div>";
+            btn.disabled = true;
+            btn.innerText = "Сканування йде...";
+            
+            // Даємо браузеру час відмалювати текст, і запускаємо процес
+            setTimeout(function() {
+                try {
+                    var locator = new ActiveXObject("WbemScripting.SWbemLocator");
+                    var wmi = locator.ConnectServer(".", "root\\CIMV2");
+                    var html = "";
+
+                    // 1. Система (OS)
+                    var colOS = wmi.ExecQuery("Select Caption, OSArchitecture from Win32_OperatingSystem");
+                    var enumOS = new Enumerator(colOS);
+                    if (!enumOS.atEnd()) {
+                        var os = enumOS.item();
+                        html += "<div class='info-row'><span class='info-label'>💻 Система (ОС):</span> <span class='info-val'>" + os.Caption + " " + (os.OSArchitecture || "") + "</span></div>";
+                    }
+
+                    // 2. Модель і ОЗП
+                    var colCS = wmi.ExecQuery("Select Manufacturer, Model, TotalPhysicalMemory from Win32_ComputerSystem");
+                    var enumCS = new Enumerator(colCS);
+                    if (!enumCS.atEnd()) {
+                        var cs = enumCS.item();
+                        html += "<div class='info-row'><span class='info-label'>🏷️ Модель / Плата:</span> <span class='info-val'>" + cs.Manufacturer + " " + cs.Model + "</span></div>";
+                        
+                        var ramGB = Math.round(cs.TotalPhysicalMemory / (1024 * 1024 * 1024) * 10) / 10;
+                        html += "<div class='info-row'><span class='info-label'>🚀 ОЗП (Пам'ять):</span> <span class='info-val'>" + ramGB + " ГБ</span></div>";
+                    }
+
+                    // 3. Процесор
+                    var colCPU = wmi.ExecQuery("Select Name from Win32_Processor");
+                    var enumCPU = new Enumerator(colCPU);
+                    if (!enumCPU.atEnd()) {
+                        var cpu = enumCPU.item();
+                        html += "<div class='info-row'><span class='info-label'>⚙️ Процесор:</span> <span class='info-val'>" + cpu.Name + "</span></div>";
+                    }
+
+                    // 4. Накопичувачі (Диски)
+                    var colDisk = wmi.ExecQuery("Select Model, Size from Win32_DiskDrive");
+                    var enumDisk = new Enumerator(colDisk);
+                    var disks = [];
+                    for (; !enumDisk.atEnd(); enumDisk.moveNext()) {
+                        var disk = enumDisk.item();
+                        var dName = disk.Model;
+                        var dSize = disk.Size ? Math.round(parseFloat(disk.Size) / (1024 * 1024 * 1024)) : 0;
+                        var sizeText = dSize > 0 ? " <span style='color:#28a745'>(" + dSize + " ГБ)</span>" : "";
+                        disks.push("• " + dName + sizeText);
+                    }
+                    if (disks.length > 0) {
+                        html += "<div class='info-row'><span class='info-label'>💽 Накопичувач:</span> <span class='info-val'>" + disks.join("<br>") + "</span></div>";
+                    }
+
+                    // 5. Базове сканування відеокарт (якщо DirectX не спрацює)
+                    var colGPU = wmi.ExecQuery("Select Name, AdapterRAM from Win32_VideoController");
+                    var enumGPU = new Enumerator(colGPU);
+                    var gpusWMI = [];
+                    for (; !enumGPU.atEnd(); enumGPU.moveNext()) {
+                        var gpu = enumGPU.item();
+                        var mem = gpu.AdapterRAM ? Math.round(parseFloat(gpu.AdapterRAM) / (1024 * 1024)) : 0;
+                        gpusWMI.push({ name: gpu.Name, ram: mem });
+                    }
+
+                    // 6. Глибоке сканування відеокарт (DirectX)
+                    var shell = new ActiveXObject("WScript.Shell");
+                    var fso = new ActiveXObject("Scripting.FileSystemObject");
+                    var tempFile = shell.ExpandEnvironmentStrings("%TEMP%") + "\\gpu_diag.xml";
+                    
+                    if (fso.FileExists(tempFile)) { fso.DeleteFile(tempFile, true); }
+                    
+                    // Тихий запуск системного сканера DirectX без помилок
+                    shell.Run('cmd /c dxdiag /whql:off /x "' + tempFile + '"', 0, true);
+                    
+                    var gpusOutput = [];
+                    
+                    if (fso.FileExists(tempFile)) {
+                        var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+                        xmlDoc.async = false;
+                        xmlDoc.load(tempFile);
+                        var devices = xmlDoc.selectNodes("//DisplayDevice");
+                        
+                        for (var i = 0; i < devices.length; i++) {
+                            var cNameNode = devices[i].selectSingleNode("CardName");
+                            var cMemNode = devices[i].selectSingleNode("DedicatedMemory");
+                            
+                            if (cNameNode) {
+                                var cName = cNameNode.text;
+                                var memVal = 0;
+                                if (cMemNode) {
+                                    memVal = parseInt(cMemNode.text);
+                                }
+                                
+                                var ramText = "";
+                                if (!isNaN(memVal) && memVal > 0) {
+                                    if (memVal >= 1000) {
+                                        var rGB = Math.round((memVal / 1024) * 10) / 10;
+                                        ramText = " <span style='color:#28a745'>(" + rGB + " ГБ VRAM)</span>";
+                                    } else {
+                                        ramText = " <span style='color:#28a745'>(" + memVal + " МБ VRAM)</span>";
+                                    }
+                                } else {
+                                    ramText = " <span style='color:#888'>(Сплячий режим)</span>";
+                                }
+                                gpusOutput.push("• " + cName + ramText);
+                            }
+                        }
+                        fso.DeleteFile(tempFile, true);
+                    }
+                    
+                    // Якщо DirectX заблокований, виводимо дані з WMI
+                    if (gpusOutput.length === 0) {
+                        for(var i = 0; i < gpusWMI.length; i++) {
+                            var ramText = "";
+                            var memVal = gpusWMI[i].ram;
+                            if (memVal > 0) {
+                                if (memVal >= 1000) {
+                                    var rGB = Math.round((memVal / 1024) * 10) / 10;
+                                    ramText = " <span style='color:#28a745'>(" + rGB + " ГБ VRAM)</span>";
+                                } else {
+                                    ramText = " <span style='color:#28a745'>(" + memVal + " МБ VRAM)</span>";
+                                }
+                            } else {
+                                ramText = " <span style='color:#888'>(Сплячий режим)</span>";
+                            }
+                            gpusOutput.push("• " + gpusWMI[i].name + ramText);
+                        }
+                    }
+
+                    if (gpusOutput.length > 0) {
+                        html += "<div class='info-row'><span class='info-label'>🎮 Відеокарта:</span> <span class='info-val'>" + gpusOutput.join("<br>") + "</span></div>";
+                    }
+
+                    // Виводимо результат і повертаємо кнопку в норму
+                    out.innerHTML = html;
+                    btn.disabled = false;
+                    btn.innerText = "Показати характеристики";
+                    
+                } catch(e) { 
+                    out.innerHTML = "<span style='color:red'>Помилка доступу до системи: " + e.message + "</span>"; 
+                    btn.disabled = false;
+                    btn.innerText = "Спробувати ще раз";
+                }
+            }, 100);
+        }
+    </script>
+</head>
+<body>
+<div class="card">
+    <h2>Характеристики ПК</h2>
+    <p>Натисніть кнопку, щоб виконати глибоке сканування та дізнатися точну модель вашого пристрою і його комплектуючі.</p>
+    <button id="btnCheck" onclick="checkSys()">Показати характеристики</button>
+    <div id="output"></div>
+</div>
+</body>
+</html>
