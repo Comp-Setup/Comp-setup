@@ -9,6 +9,11 @@
     <meta name="keywords" content="установка виндовс николаев, установка віндовс миколаїв, переустановка windows николаев, настройка виндовс корабельный район, ремонт компьютеров николаев, установка драйверов, восстановление данных николаев, загрузочная флешка windows купить">
 
     <style>
+        /* Плавний перехід (скрол) для всієї сторінки */
+        html {
+            scroll-behavior: smooth;
+        }
+
         :root {
             --accent: #00a4ef;
             --accent-hover: #0078d4;
@@ -18,7 +23,8 @@
             --glass: rgba(255, 255, 255, 0.1);
             --viber: #7360f2;
             --telegram: #0088cc;
-            --phone: #2c3e50;
+            --phone: #d44638; /* Поміняли на червоний */
+            --email: #2c3e50; /* Поміняли на темний */
         }
 
         body {
@@ -111,12 +117,18 @@
             transition: 0.2s;
         }
 
-        .viber { background: var(--viber); }
-        .viber:hover { background: #5e4ed9; }
-        .telegram { background: var(--telegram); }
-        .telegram:hover { background: #0077b3; }
-        .phone { background: var(--phone); }
-        .phone:hover { background: #34495e; }
+        /* Додані ефекти світіння (тіні) для всіх кнопок контактів */
+        .viber { background: var(--viber); box-shadow: 0 5px 15px rgba(115, 96, 242, 0.4); }
+        .viber:hover { background: #5e4ed9; box-shadow: 0 10px 25px rgba(115, 96, 242, 0.7); }
+        
+        .telegram { background: var(--telegram); box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4); }
+        .telegram:hover { background: #0077b3; box-shadow: 0 10px 25px rgba(0, 136, 204, 0.7); }
+        
+        .phone { background: var(--phone); box-shadow: 0 5px 15px rgba(212, 70, 56, 0.4); }
+        .phone:hover { background: #b23a2f; box-shadow: 0 10px 25px rgba(212, 70, 56, 0.7); }
+        
+        .email { background: var(--email); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(44, 62, 80, 0.4); }
+        .email:hover { background: #34495e; box-shadow: 0 10px 25px rgba(44, 62, 80, 0.7); }
         
         .soft-list { display: flex; flex-direction: column; gap: 8px; margin-top: 15px; }
         .soft-link { 
@@ -143,7 +155,6 @@
         .info-tip a { color: var(--accent); text-decoration: none; font-weight: bold; }
         .info-tip a:hover { text-decoration: underline; }
 
-        /* Прихований блок для SEO-роботів */
         .seo-hidden {
             position: absolute;
             width: 1px;
@@ -154,6 +165,52 @@
             clip: rect(0,0,0,0);
             border: 0;
             color: transparent;
+        }
+
+        /* Стилі для блоку SOS */
+        .sos-section {
+            margin-top: 80px;
+            padding: 40px;
+            background: rgba(255, 0, 0, 0.05);
+            border: 2px dashed #ff4d4d;
+            border-radius: 20px;
+        }
+        .sos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        .sos-card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #ff4d4d;
+        }
+        .sos-card h4 {
+            color: #ff4d4d;
+            margin-top: 0;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        .sos-card p {
+            font-size: 14px;
+            margin-bottom: 0;
+            color: #eee;
+        }
+        .sos-card a {
+            color: var(--accent);
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .sos-card a:hover {
+            text-decoration: underline;
+        }
+        .sos-title {
+            text-align: center;
+            color: #ff4d4d;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .tools-area {
@@ -183,6 +240,65 @@
 
         .footer { text-align: center; padding: 60px; color: #666; font-size: 14px; }
         strong { color: var(--accent); }
+
+        /* --- НОВІ СТИЛІ ДЛЯ СПЛИВАЮЧОГО ВІКНА ПОШТИ --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background: #111;
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 164, 239, 0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-box {
+            transform: translateY(0);
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            color: #888;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .modal-close:hover {
+            color: white;
+            transform: scale(1.1);
+        }
+        .email-display {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 16px;
+            border: 1px solid var(--glass);
+            color: #fff;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -258,10 +374,11 @@
         </div>
     </div>
 
-    <div class="contact-buttons">
+    <div class="contact-buttons" id="contacts">
         <a href="viber://chat?number=%2B380507383133" class="btn-contact viber">Написати у Viber</a>
         <a href="https://t.me/+380507383133" class="btn-contact telegram">Написати у Telegram</a>
         <a href="tel:+380976648820" class="btn-contact phone">Подзвонити (+380976648820 - Дмитрий)</a>
+        <a href="mailto:Novikov666kherson@gmail.com" class="btn-contact email">Написати на пошту</a>
     </div>
 
     <h2 style="text-align: center; margin-top: 80px;">Рекомендований софт (Офіційні сайти)</h2>
@@ -310,11 +427,45 @@
         </ol>
     </div>
 
+    <div class="sos-section">
+        <h2 class="sos-title">🆘 SOS: Екстрена допомога</h2>
+        <p style="text-align: center; color: #ccc;">Що робити прямо зараз, щоб не доламати техніку:</p>
+        
+        <div class="sos-grid">
+            <div class="sos-card">
+                <h4>Залили рідиною?</h4>
+                <p>Негайно вимкніть живлення та витягніть батарею! Не сушіть феном і не кладіть у рис. Чим швидше ви звернетесь до майстра, тим більше шансів врятувати материнську плату.</p>
+            </div>
+            
+            <div class="sos-card">
+                <h4>Синій екран (BSOD)?</h4>
+                <p>Порада: не перезавантажувати одразу, а зробити фото помилки на телефон і відправити мені на <a href="viber://chat?number=%2B380507383133">Вайбер</a> або <a href="https://t.me/+380507383133">Телеграм</a> або на <a href="mailto:Novikov666kherson@gmail.com">пошту</a>. Це допоможе мені швидше знайти причину.</p>
+            </div>
+
+            <div class="sos-card">
+                <h4>Комп'ютер гальмує?</h4>
+                <p>Не встановлюйте сумнівні "прискорювачі" з інтернету. Краще перевірте температуру через наш модуль діагностики нижче — можливо, потрібна термінова чистка від пилу чи заміна термопасти.</p>
+            </div>
+
+            <div class="sos-card">
+                <h4>Немає інтернету?</h4>
+                <p>Вимкніть роутер з розетки на 30 секунд і увімкніть знову. Якщо не допомогло — телефонуйте, перевіримо налаштування мережі або драйвери.</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="#contacts" class="btn-main" style="background: #ff4d4d; box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3);">Потрібна термінова допомога!</a>
+        </div>
+    </div>
+
     <div class="tools-area">
         <h2>Центр діагностики</h2>
-        <p>Скачайте модуль для перевірки типу диска (SSD/HDD) перед установкою:</p>
+        <p>Скачайте наші модулі для швидкої перевірки стану комп'ютера перед установкою:</p>
         <br>
-        <a href="indexWindows.hta" download="indexWindows.hta" class="btn-main">Завантажити модуль (.HTA)</a>
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <a href="indexWindows.hta" download="indexWindows.hta" class="btn-main">Модуль: Тип диска (SSD/HDD)</a>
+            <a href="checkTemp.hta" download="checkTemp.hta" class="btn-main" style="background: #28a745; box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);">Модуль: Температура</a>
+        </div>
     </div>
 </div>
 
@@ -322,6 +473,71 @@
     <p>Маю великий досвід у налаштуванні софту. Працюю з будь-якими ПК та ноутбуками.</p>
     <p>&copy; 2026 Професійна IT-допомога у Миколаєві. Всі права захищені.</p>
 </div>
+
+<div id="emailModal" class="modal-overlay">
+    <div class="modal-box">
+        <span class="modal-close" onclick="closeEmailModal()">&times;</span>
+        <h3 style="margin-top:0; color:var(--accent);">Написати на пошту</h3>
+        <p style="color:#ddd; font-size:14px;">Оберіть зручний спосіб:</p>
+        
+        <div class="email-display" id="emailText">Novikov666kherson@gmail.com</div>
+        
+        <button id="copyEmailBtn" class="btn-main" style="width: 100%; padding: 12px; margin-bottom: 15px; font-size: 16px;" onclick="copyEmailToClipboard()">📋 Скопіювати адресу</button>
+        
+        <a href="mailto:Novikov666kherson@gmail.com" class="btn-main" style="width: 100%; box-sizing: border-box; display: block; background: var(--email); padding: 12px; font-size: 16px; border: 1px solid rgba(255,255,255,0.1);" onclick="closeEmailModal()">📧 Відкрити в програмі</a>
+    </div>
+</div>
+
+<script>
+    // Скрипт перехоплення кліків на пошту
+    document.addEventListener('DOMContentLoaded', function() {
+        var mailLinks = document.querySelectorAll('a[href^="mailto:"]');
+        
+        mailLinks.forEach(function(link) {
+            // Перехоплюємо всі посилання, окрім того, що знаходиться всередині самого вікна
+            if (!link.closest('#emailModal')) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // Зупиняємо стандартну спробу відкрити додаток
+                    document.getElementById('emailModal').classList.add('active');
+                });
+            }
+        });
+    });
+
+    // Функція закриття вікна
+    function closeEmailModal() {
+        document.getElementById('emailModal').classList.remove('active');
+    }
+
+    // Закриття при кліку по темному фону навколо вікна
+    window.onclick = function(event) {
+        var modal = document.getElementById('emailModal');
+        if (event.target == modal) {
+            closeEmailModal();
+        }
+    }
+
+    // Функція копіювання адреси
+    function copyEmailToClipboard() {
+        var email = "Novikov666kherson@gmail.com";
+        var btn = document.getElementById('copyEmailBtn');
+        
+        navigator.clipboard.writeText(email).then(function() {
+            // Якщо скопіювалося успішно
+            btn.innerHTML = '✅ Скопійовано!';
+            btn.style.background = '#28a745';
+            
+            // Повертаємо кнопку до звичайного стану через 2 секунди
+            setTimeout(function() {
+                btn.innerHTML = '📋 Скопіювати адресу';
+                btn.style.background = 'var(--accent)';
+            }, 2000);
+        }).catch(function(err) {
+            // Запасний варіант, якщо браузер блокує буфер обміну
+            alert('Будь ласка, виділіть та скопіюйте адресу вручну: ' + email);
+        });
+    }
+</script>
 
 </body>
 </html>
