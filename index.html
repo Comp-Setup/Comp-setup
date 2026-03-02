@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Установка Windows (Віндовс) та Linux Миколаїв (Николаев) | Настройка, Оптимізація, Активація</title>
+    <title>Установка Windows (Віндовс) та Linux у Миколаєві (Николаеве) та обл. | Настройка, Оптимізація, Активація</title>
     
     <meta name="description" content="Професійна установка Windows (XP/7/8/10/11) та Linux у Миколаєві. Виїзд Корабельний район, область. Настройка, оптимізація, драйвери та відновлення даних.">
     <meta name="keywords" content="установка виндовс николаев, установка віндовс миколаїв, переустановка windows николаев, настройка виндовс корабельный район, ремонт компьютеров николаев, установка драйверов, восстановление данных николаев, загрузочная флешка windows купить">
@@ -42,6 +42,32 @@
             --email: #2c3e50;
         }
 
+        /* --- СВІТЛА ТЕМА --- */
+        body.light-theme {
+            --bg: #f4f6f9;
+            --card-bg: #ffffff;
+            --text: #222222;
+            --glass: rgba(0, 0, 0, 0.1);
+            background-image: radial-gradient(circle at top right, #e0f2fe, transparent);
+        }
+        body.light-theme header { background: linear-gradient(to bottom, rgba(255,255,255,0.9), transparent); }
+        body.light-theme h1, body.light-theme h2, body.light-theme h3 { color: #111; }
+        body.light-theme .card h3 { color: var(--accent); }
+        body.light-theme .subtitle, body.light-theme .card ul, body.light-theme .sos-card p, body.light-theme details p, body.light-theme .footer { color: #555; }
+        body.light-theme .work-hours, body.light-theme .info-tip { background: #e6f6ff; color: #333; border: 1px solid rgba(0, 164, 239, 0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        body.light-theme .work-hours span { color: #1e7e34; text-shadow: none; }
+        body.light-theme .price-box { background: linear-gradient(145deg, #ffffff, #f0f8ff); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        body.light-theme .soft-link { background: #f0f0f0; color: #333; }
+        body.light-theme .soft-link:hover { background: var(--accent); color: white; }
+        body.light-theme .sos-section { background: #fff0f0; border-color: #ffcccc; }
+        body.light-theme .sos-card { background: #ffffff; border: 1px solid #ffcccc; border-left: 4px solid #ff4d4d; }
+        body.light-theme details { background: #ffffff; }
+        body.light-theme details[open] { background: #f0f8ff; }
+        body.light-theme .modal-box { background: #ffffff; color: #222; }
+        body.light-theme .email-display { background: #f8f9fa; color: #111; border-color: #ccc; }
+        body.light-theme .btn-contact.email { background: #e0e0e0; color: #333; }
+        body.light-theme .btn-contact.email:hover { background: #d0d0d0; }
+
         body {
             font-family: 'Segoe UI Variable', 'Segoe UI', sans-serif;
             background-color: var(--bg);
@@ -49,7 +75,37 @@
             margin: 0;
             line-height: 1.6;
             background-image: radial-gradient(circle at top right, #001f3f, transparent);
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
+
+        /* --- КЕРУВАННЯ МОВОЮ ТА ТЕМОЮ --- */
+        .top-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .control-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--glass);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .control-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .control-btn.active-lang { background: var(--accent); color: white; border-color: var(--accent); }
+        
+        /* Логіка відображення мов */
+        body.lang-ru .lang-uk { display: none !important; }
+        body.lang-uk .lang-ru { display: none !important; }
 
         header {
             padding: 100px 20px 60px;
@@ -66,6 +122,7 @@
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 20px;
+            color: white;
         }
 
         h1 { font-size: 3rem; margin: 10px 0; letter-spacing: -1px; }
@@ -80,9 +137,10 @@
             border: 1px solid rgba(0, 164, 239, 0.3);
             border-radius: 30px;
             font-size: 16px;
-            color: #fff;
+            color: var(--text);
             backdrop-filter: blur(5px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: 0.3s;
         }
         .work-hours span { font-weight: bold; color: #28a745; text-shadow: 0 0 10px rgba(40, 167, 69, 0.5); }
 
@@ -114,6 +172,7 @@
             padding: 30px;
             border-radius: 20px;
             margin-top: 50px;
+            transition: 0.3s;
         }
 
         .price-grid {
@@ -126,6 +185,21 @@
 
         .price-item { text-align: center; flex: 1; min-width: 200px; }
         .price-val { font-size: 24px; font-weight: bold; color: var(--accent); display: block; }
+
+        /* Стилі для блоку доставки */
+        .delivery-info {
+            margin: 30px auto 0;
+            padding: 20px;
+            background: rgba(0, 164, 239, 0.05);
+            border: 1px dashed var(--accent);
+            border-radius: 12px;
+            max-width: 650px;
+            font-size: 15px;
+            text-align: center;
+        }
+        .delivery-info p { margin: 10px 0; color: #ccc; }
+        body.light-theme .delivery-info p { color: #555; }
+        .delivery-info strong { color: #28a745; font-size: 16px; }
 
         .contact-buttons {
             display: flex;
@@ -171,8 +245,9 @@
             border-radius: 6px; 
             text-align: center;
             font-size: 14px;
+            transition: 0.2s;
         }
-        .soft-link:hover { background: var(--accent); }
+        .soft-link:hover { background: var(--accent); color: white; }
 
         .info-tip {
             margin-top: 30px;
@@ -182,6 +257,7 @@
             border-radius: 8px;
             font-size: 15px;
             color: #ddd;
+            transition: 0.3s;
         }
         .info-tip a { color: var(--accent); text-decoration: none; font-weight: bold; }
         .info-tip a:hover { text-decoration: underline; }
@@ -193,6 +269,7 @@
             background: rgba(255, 0, 0, 0.05);
             border: 2px dashed #ff4d4d;
             border-radius: 20px;
+            transition: 0.3s;
         }
         .sos-grid {
             display: grid;
@@ -205,6 +282,7 @@
             padding: 20px;
             border-radius: 12px;
             border-left: 4px solid #ff4d4d;
+            transition: 0.3s;
         }
         .sos-card h4 { color: #ff4d4d; margin-top: 0; text-transform: uppercase; font-size: 14px; }
         .sos-card p { font-size: 14px; margin-bottom: 0; color: #eee; }
@@ -231,6 +309,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: var(--text);
         }
         summary::-webkit-details-marker { display: none; }
         summary::after { content: '+'; color: var(--accent); font-size: 20px; font-weight: normal; }
@@ -243,6 +322,7 @@
             padding: 60px 20px;
             background: var(--card-bg);
             border-radius: 30px;
+            transition: 0.3s;
         }
 
         .btn-main {
@@ -259,7 +339,7 @@
             cursor: pointer;
             border: none;
         }
-        .btn-main:hover { background: var(--accent-hover); box-shadow: 0 15px 30px rgba(0, 164, 239, 0.5); }
+        .btn-main:hover { background: var(--accent-hover); box-shadow: 0 15px 30px rgba(0, 164, 239, 0.5); color: white;}
 
         /* Кнопки діагностики */
         .btn-diag { font-size: 15px; padding: 12px 25px; }
@@ -301,11 +381,12 @@
             position: absolute; top: 15px; right: 20px; color: #888;
             font-size: 28px; cursor: pointer; transition: 0.2s; line-height: 1;
         }
-        .modal-close:hover { color: white; transform: scale(1.1); }
+        .modal-close:hover { color: var(--text); transform: scale(1.1); }
         .email-display {
             background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;
             margin-bottom: 20px; font-family: monospace; font-size: 16px;
             border: 1px solid var(--glass); color: #fff; word-break: break-all;
+            transition: 0.3s;
         }
 
         /* Плаваюча кнопка Зв'язку */
@@ -333,252 +414,308 @@
             background: var(--accent-hover);
             animation: none;
             box-shadow: 0 10px 25px rgba(0, 164, 239, 0.6);
+            color: white;
         }
         @keyframes pulse-ring {
             0% { box-shadow: 0 0 0 0 rgba(0, 164, 239, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(0, 164, 239, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 164, 239, 0); }
         }
-        /* Сховати плаваючу кнопку на великих екранах, якщо потрібно, але вона корисна всюди */
         @media (max-width: 600px) {
             .floating-action { bottom: 20px; right: 20px; padding: 12px 20px; font-size: 14px; }
+            .top-controls { top: 10px; right: 10px; }
+            .control-btn { padding: 6px 12px; font-size: 12px; }
         }
     </style>
+    <script>
+        if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light-theme-applied');
+        if (localStorage.getItem('lang') === 'ru') document.documentElement.classList.add('lang-ru-applied');
+    </script>
 </head>
-<body>
+<body class="lang-uk">
+<script>
+    if (document.documentElement.classList.contains('light-theme-applied')) document.body.classList.add('light-theme');
+    if (document.documentElement.classList.contains('lang-ru-applied')) {
+        document.body.classList.remove('lang-uk');
+        document.body.classList.add('lang-ru');
+    }
+</script>
+
+<div class="top-controls">
+    <button id="langUkBtn" class="control-btn active-lang" onclick="setLang('uk')">УКР</button>
+    <button id="langRuBtn" class="control-btn" onclick="setLang('ru')">РУС</button>
+    <button id="themeToggle" class="control-btn" onclick="toggleTheme()">☀️ Світла</button>
+</div>
 
 <header>
-    <div class="hero-badge">Корабельний район • Миколаїв • Виїзд в передмістя та область</div>
-    <h1>Повернення техніки до життя</h1>
-    <p class="subtitle">Установка Windows XP/7/8/10/11 та Linux. Роблю як для себе — якісно, швидко та з гарантією.</p>
+    <div class="hero-badge">
+        <span class="lang-uk">Корабельний район • Миколаїв • Виїзд в передмістя та область</span>
+        <span class="lang-ru">Корабельный район • Николаев • Выезд в пригород и область</span>
+    </div>
+    <h1>
+        <span class="lang-uk">Повернення техніки до життя</span>
+        <span class="lang-ru">Возвращение техники к жизни</span>
+    </h1>
+    <p class="subtitle">
+        <span class="lang-uk">Установка Windows XP/7/8/10/11 та Linux. Роблю як для себе — якісно, швидко та з гарантією.</span>
+        <span class="lang-ru">Установка Windows XP/7/8/10/11 и Linux. Делаю как для себя — качественно, быстро и с гарантией.</span>
+    </p>
     
     <div class="work-hours">
-        🕒 Працюю без вихідних: <span>08:00 — 20:00</span>
+        🕒 <span class="lang-uk">Працюю без вихідних:</span><span class="lang-ru">Работаю без выходных:</span> <span>08:00 — 20:00</span>
     </div>
 </header>
 
 <div class="container">
     <div class="grid">
         <div class="card">
-            <h3>Система «Під Ключ»</h3>
-            <p>При установці ОС ви отримуєте <strong>БЕЗКОШТОВНО</strong>:</p>
+            <h3><span class="lang-uk">Система «Під Ключ»</span><span class="lang-ru">Система «Под Ключ»</span></h3>
+            <p><span class="lang-uk">При установці ОС ви отримуєте <strong>БЕЗКОШТОВНО</strong>:</span><span class="lang-ru">При установке ОС вы получаете <strong>БЕСПЛАТНО</strong>:</span></p>
             <ul>
-                <li>Всі необхідні драйвери</li>
-                <li>Пакет програм для роботи</li>
-                <li>Налаштування інтернету</li>
-                <li>Оптимізація для швидкості</li>
+                <li><span class="lang-uk">Всі необхідні драйвери</span><span class="lang-ru">Все необходимые драйверы</span></li>
+                <li><span class="lang-uk">Пакет програм для роботи</span><span class="lang-ru">Пакет программ для работы</span></li>
+                <li><span class="lang-uk">Налаштування інтернету</span><span class="lang-ru">Настройка интернета</span></li>
+                <li><span class="lang-uk">Оптимізація для швидкості</span><span class="lang-ru">Оптимизация для скорости</span></li>
             </ul>
         </div>
         <div class="card">
-            <h3>Безпека Даних</h3>
-            <p>Збережу файли перед установкою або <strong>відновлю втрачені</strong> фото та документи з пошкоджених дисків.</p>
+            <h3><span class="lang-uk">Безпека Даних</span><span class="lang-ru">Безопасность Данных</span></h3>
+            <p><span class="lang-uk">Збережу файли перед установкою або <strong>відновлю втрачені</strong> фото та документи з пошкоджених дисків.</span><span class="lang-ru">Сохраню файлы перед установкой или <strong>восстановлю потерянные</strong> фото и документы с поврежденных дисков.</span></p>
         </div>
         <div class="card">
-            <h3>Дистанційна Допомога</h3>
-            <p>Виправлення помилок, активація, установка драйверів і програм та налаштування через AnyDesk / TeamViewer.</p>
+            <h3><span class="lang-uk">Дистанційна Допомога</span><span class="lang-ru">Удаленная Помощь</span></h3>
+            <p><span class="lang-uk">Виправлення помилок, активація, установка драйверів і програм та налаштування через AnyDesk / TeamViewer.</span><span class="lang-ru">Исправление ошибок, активация, установка драйверов и программ, а также настройка через AnyDesk / TeamViewer.</span></p>
         </div>
     </div>
 
     <div class="price-box">
-        <h2 style="text-align: center;">Завантажувальні флешки «Все в одному»</h2>
-        <p style="text-align: center;">Готове рішення для самостійної установки систем.</p>
+        <h2 style="text-align: center;"><span class="lang-uk">Завантажувальні флешки «Все в одному»</span><span class="lang-ru">Загрузочные флешки «Все в одном»</span></h2>
+        
+        <p style="text-align: center; color: var(--accent); font-weight: bold; font-size: 1.1em; margin-top: -10px;">
+            <span class="lang-uk">Усі ОС + Драйвери + LIVE CD (для запуску Windows без встановлення)</span>
+            <span class="lang-ru">Все ОС + Драйверы + LIVE CD (для запуска Windows без установки)</span>
+        </p>
+
+        <p style="text-align: center;"><span class="lang-uk">Готове рішення для самостійної установки систем.</span><span class="lang-ru">Готовое решение для самостоятельной установки систем.</span></p>
+        
+        <div class="delivery-info">
+            <p><strong><span class="lang-uk">💡 Консультація БЕЗКОШТОВНО!</span><span class="lang-ru">💡 Консультация БЕСПЛАТНО!</span></strong></p>
+            <p><span class="lang-uk">📦 Відправляю флешки Новою Поштою (або будь-якою іншою) по всій Україні.</span><span class="lang-ru">📦 Отправляю флешки Новой Почтой (или любой другой) по всей Украине.</span></p>
+            <p><span class="lang-uk">⏱️ При замовленні до 12:00 — відправка в день замовлення. Дзвоніть або пишіть та замовляйте.</span><span class="lang-ru">⏱️ При заказе до 12:00 — отправка в день заказа. Звоните или пишите и заказывайте.</span></p>
+        </div>
+
         <div class="price-grid">
             <div class="price-item">
                 <span class="price-val">400 грн</span>
-                Флешка 32ГБ (Усі ОС)
+                <span class="lang-uk">Флешка 32ГБ</span><span class="lang-ru">Флешка 32ГБ</span>
             </div>
             <div class="price-item">
                 <span class="price-val">550 грн</span>
-                Флешка 64ГБ (Усі ОС + Драйвери)
+                <span class="lang-uk">Флешка 64ГБ (розширений набір драйверів)</span><span class="lang-ru">Флешка 64ГБ (расширенный набор драйверов)</span>
             </div>
         </div>
     </div>
 
-    <h2 style="text-align: center; margin-top: 80px;">Вартість послуг та виїзду</h2>
+    <h2 style="text-align: center; margin-top: 80px;"><span class="lang-uk">Вартість послуг та виїзду</span><span class="lang-ru">Стоимость услуг и выезда</span></h2>
     <div class="price-grid">
         <div class="price-item">
-            <span>Корабельний район</span>
-            <span class="price-val">від 500 грн</span>
+            <span><span class="lang-uk">Корабельний район</span><span class="lang-ru">Корабельный район</span></span>
+            <span class="price-val"><span class="lang-uk">від</span><span class="lang-ru">от</span> 500 грн</span>
         </div>
         <div class="price-item">
-            <span>Миколаїв (інші райони)</span>
-            <span class="price-val">від 700 грн</span>
+            <span><span class="lang-uk">Миколаїв (інші райони)</span><span class="lang-ru">Николаев (другие районы)</span></span>
+            <span class="price-val"><span class="lang-uk">від</span><span class="lang-ru">от</span> 700 грн</span>
         </div>
         <div class="price-item">
-            <span>Передмістя / Область</span>
-            <span class="price-val">Договірна</span>
+            <span><span class="lang-uk">Передмістя / Область</span><span class="lang-ru">Пригород / Область</span></span>
+            <span class="price-val"><span class="lang-uk">Договірна</span><span class="lang-ru">Договорная</span></span>
         </div>
     </div>
 
     <div class="contact-buttons" id="contacts">
-        <a href="viber://chat?number=%2B380507383133" class="btn-contact viber">Написати у Viber</a>
-        <a href="https://t.me/+380507383133" class="btn-contact telegram">Написати у Telegram</a>
-        <a href="https://wa.me/380976648820" class="btn-contact whatsapp" target="_blank">Написати у WhatsApp</a>
-        <a href="tel:+380976648820" class="btn-contact phone">Подзвонити (+380976648820 - Дмитрий)</a>
-        <a href="mailto:Novikov666kherson@gmail.com" class="btn-contact email">Написати на пошту</a>
+        <a href="viber://chat?number=%2B380507383133" class="btn-contact viber"><span class="lang-uk">Написати у Viber</span><span class="lang-ru">Написать в Viber</span></a>
+        <a href="https://t.me/+380507383133" class="btn-contact telegram"><span class="lang-uk">Написати у Telegram</span><span class="lang-ru">Написать в Telegram</span></a>
+        <a href="https://wa.me/380976648820" class="btn-contact whatsapp" target="_blank"><span class="lang-uk">Написати у WhatsApp</span><span class="lang-ru">Написать в WhatsApp</span></a>
+        <a href="tel:+380976648820" class="btn-contact phone"><span class="lang-uk">Подзвонити (+380976648820 - Дмитрий)</span><span class="lang-ru">Позвонить (+380976648820 - Дмитрий)</span></a>
+        <a href="mailto:Novikov666kherson@gmail.com" class="btn-contact email"><span class="lang-uk">Написати на пошту</span><span class="lang-ru">Написать на почту</span></a>
     </div>
 
-    <h2 style="text-align: center; margin-top: 80px;">Рекомендований софт (Офіційні сайти)</h2>
+    <h2 style="text-align: center; margin-top: 80px;"><span class="lang-uk">Рекомендований софт (Офіційні сайти)</span><span class="lang-ru">Рекомендуемый софт (Официальные сайты)</span></h2>
     <div class="grid">
         <div class="card">
-            <h3>Браузери та Мережа</h3>
+            <h3><span class="lang-uk">Браузери та Мережа</span><span class="lang-ru">Браузеры и Сеть</span></h3>
             <div class="soft-list">
                 <a href="https://www.google.com/chrome/" target="_blank" class="soft-link">Google Chrome</a>
-                <a href="https://anydesk.com/en/downloads/windows" target="_blank" class="soft-link">AnyDesk (Віддалений доступ)</a>
+                <a href="https://anydesk.com/en/downloads/windows" target="_blank" class="soft-link"><span class="lang-uk">AnyDesk (Віддалений доступ)</span><span class="lang-ru">AnyDesk (Удаленный доступ)</span></a>
                 <a href="https://www.teamviewer.com/uk/download/windows/" target="_blank" class="soft-link">TeamViewer</a>
                 <a href="https://psiphon.ca/uk/download.html" target="_blank" class="soft-link">Psiphon VPN</a>
             </div>
         </div>
         <div class="card">
-            <h3>Мультимедіа та Архіви</h3>
+            <h3><span class="lang-uk">Мультимедіа та Архіви</span><span class="lang-ru">Мультимедиа и Архивы</span></h3>
             <div class="soft-list">
-                <a href="https://www.7-zip.org/" target="_blank" class="soft-link">7-Zip (Архіватор)</a>
-                <a href="https://www.videolan.org/vlc/" target="_blank" class="soft-link">VLC Player (Відео)</a>
-                <a href="https://www.aimp.ru/" target="_blank" class="soft-link">AIMP (Музика)</a>
+                <a href="https://www.7-zip.org/" target="_blank" class="soft-link"><span class="lang-uk">7-Zip (Архіватор)</span><span class="lang-ru">7-Zip (Архиватор)</span></a>
+                <a href="https://www.videolan.org/vlc/" target="_blank" class="soft-link"><span class="lang-uk">VLC Player (Відео)</span><span class="lang-ru">VLC Player (Видео)</span></a>
+                <a href="https://www.aimp.ru/" target="_blank" class="soft-link"><span class="lang-uk">AIMP (Музика)</span><span class="lang-ru">AIMP (Музыка)</span></a>
             </div>
         </div>
         <div class="card">
-            <h3>Система та Захист</h3>
+            <h3><span class="lang-uk">Система та Захист</span><span class="lang-ru">Система и Защита</span></h3>
             <div class="soft-list">
-                <a href="https://sdi-tool.org/download/" target="_blank" class="soft-link">SDI (Драйвери)</a>
-                <a href="https://www.ccleaner.com/" target="_blank" class="soft-link">CCleaner (Очистка)</a>
-                <a href="https://ninite.com/" target="_blank" class="soft-link" style="border: 1px solid var(--accent);">Ninite (Все в 1 клік)</a>
+                <a href="https://sdi-tool.org/download/" target="_blank" class="soft-link"><span class="lang-uk">SDI (Драйвери)</span><span class="lang-ru">SDI (Драйверы)</span></a>
+                <a href="https://www.ccleaner.com/" target="_blank" class="soft-link"><span class="lang-uk">CCleaner (Очистка)</span><span class="lang-ru">CCleaner (Очистка)</span></a>
+                <a href="https://ninite.com/" target="_blank" class="soft-link" style="border: 1px solid var(--accent);"><span class="lang-uk">Ninite (Все в 1 клік)</span><span class="lang-ru">Ninite (Всё в 1 клик)</span></a>
             </div>
         </div>
     </div>
 
     <div class="info-tip">
-        Якщо сайт не відкривається або не вантажиться файл (наприклад на сторінці 7zip) — 
+        <span class="lang-uk">Якщо сайт не відкривається або не вантажиться файл (наприклад на сторінці 7zip) — 
         <a href="https://psiphon.ca/uk/download.html" target="_blank">скачайте і запустіть Psiphon VPN</a> 
         і спробуйте знову! Також ви можете завантажити програми з сайту 
-        <a href="https://ninite.com/" target="_blank">Ninite</a>, обравши галочками потрібні.
+        <a href="https://ninite.com/" target="_blank">Ninite</a>, обравши галочками потрібні.</span>
+        
+        <span class="lang-ru">Если сайт не открывается или не грузится файл (например на странице 7zip) — 
+        <a href="https://psiphon.ca/uk/download.html" target="_blank">скачайте и запустите Psiphon VPN</a> 
+        и попробуйте снова! Также вы можете скачать программы с сайта 
+        <a href="https://ninite.com/" target="_blank">Ninite</a>, выбрав галочками нужные.</span>
     </div>
 
     <div class="card" style="margin-top: 50px;">
-        <h3>Як користуватися завантажувальною флешкою?</h3>
-        <ol>
+        <h3><span class="lang-uk">Як користуватися завантажувальною флешкою?</span><span class="lang-ru">Как пользоваться загрузочной флешкой?</span></h3>
+        <ol class="lang-uk">
             <li>Вставте флешку у вимкнений ПК або ноутбук.</li>
             <li>При увімкненні натискайте клавішу виклику <strong>Boot Menu</strong> (зазвичай F12, F11, F8 або Esc).</li>
             <li>Оберіть вашу флешку у списку та натисніть Enter.</li>
             <li>У меню оберіть потрібну ОС або пункт <strong>Live CD</strong> для порятунку файлів.</li>
         </ol>
+        <ol class="lang-ru">
+            <li>Вставьте флешку в выключенный ПК или ноутбук.</li>
+            <li>При включении нажимайте клавишу вызова <strong>Boot Menu</strong> (обычно F12, F11, F8 или Esc).</li>
+            <li>Выберите вашу флешку в списке и нажмите Enter.</li>
+            <li>В меню выберите нужную ОС или пункт <strong>Live CD</strong> для спасения файлов.</li>
+        </ol>
     </div>
 
-    <h2 style="text-align: center; margin-top: 80px;">Часті запитання</h2>
+    <h2 style="text-align: center; margin-top: 80px;"><span class="lang-uk">Часті запитання</span><span class="lang-ru">Частые вопросы</span></h2>
     <div class="faq-box" style="max-width: 800px; margin: 0 auto;">
         <details>
-            <summary>Чи збережуться мої фото та файли при перевстановленні Віндовс?</summary>
-            <p>Так! Я обов'язково запитую про важливі дані перед роботою. Усі ваші фотографії, документи та відео будуть перенесені на безпечний розділ диску, і ви нічого не втратите.</p>
+            <summary><span class="lang-uk">Чи збережуться мої фото та файли при перевстановленні Віндовс?</span><span class="lang-ru">Сохранятся ли мои фото и файлы при переустановке Виндовс?</span></summary>
+            <p><span class="lang-uk">Так! Я обов'язково запитую про важливі дані перед роботою. Усі ваші фотографії, документи та відео будуть перенесені на безпечний розділ диску, і ви нічого не втратите.</span><span class="lang-ru">Да! Я обязательно спрашиваю о важных данных перед работой. Все ваши фотографии, документы и видео будут перенесены на безопасный раздел диска, и вы ничего не потеряете.</span></p>
         </details>
         <details>
-            <summary>Скільки часу займає установка системи?</summary>
-            <p>Зазвичай повна установка ОС разом із драйверами та базовими програмами займає від 1 до 2 годин, залежно від потужності вашого комп'ютера або ноутбука (чи встановлений там швидкий SSD диск).</p>
+            <summary><span class="lang-uk">Скільки часу займає установка системи?</span><span class="lang-ru">Сколько времени занимает установка системы?</span></summary>
+            <p><span class="lang-uk">Зазвичай повна установка ОС разом із драйверами та базовими програмами займає від 1 до 2 годин, залежно від потужності вашого комп'ютера або ноутбука (чи встановлений там швидкий SSD диск).</span><span class="lang-ru">Обычно полная установка ОС вместе с драйверами и базовыми программами занимает от 1 до 2 часов, в зависимости от мощности вашего компьютера или ноутбука (установлен ли там быстрый SSD диск).</span></p>
         </details>
         <details>
-            <summary>Чи встановлюєте ви Антивірус та драйвери?</summary>
-            <p>Звісно! Антивірусний захист, архіватор, відеоплеєр та абсолютно всі драйвери (для відеокарти, звуку, мережі) входять у послугу «Під ключ» абсолютно безкоштовно.</p>
+            <summary><span class="lang-uk">Чи встановлюєте ви Антивірус та драйвери?</span><span class="lang-ru">Устанавливаете ли вы Антивирус и драйверы?</span></summary>
+            <p><span class="lang-uk">Звісно! Антивірусний захист, архіватор, відеоплеєр та абсолютно всі драйвери (для відеокарти, звуку, мережі) входять у послугу «Під ключ» абсолютно безкоштовно.</span><span class="lang-ru">Конечно! Антивирусная защита, архиватор, видеоплеер и абсолютно все драйверы (для видеокарты, звука, сети) входят в услугу «Под ключ» абсолютно бесплатно.</span></p>
         </details>
     </div>
 
     <div class="sos-section">
-        <h2 class="sos-title">🆘 SOS: Екстрена допомога</h2>
-        <p style="text-align: center; color: #ccc;">Що робити прямо зараз, щоб не доламати техніку:</p>
+        <h2 class="sos-title">🆘 <span class="lang-uk">SOS: Екстрена допомога</span><span class="lang-ru">SOS: Экстренная помощь</span></h2>
+        <p style="text-align: center; color: #ccc;"><span class="lang-uk">Що робити прямо зараз, щоб не доламати техніку:</span><span class="lang-ru">Что делать прямо сейчас, чтобы не доломать технику:</span></p>
         
         <div class="sos-grid">
             <div class="sos-card">
-                <h4>Залили рідиною?</h4>
-                <p>Негайно вимкніть живлення та витягніть батарею! Не сушіть феном і не кладіть у рис. Чим швидше ви звернетесь до майстра, тим більше шансів врятувати материнську плату.</p>
+                <h4><span class="lang-uk">Залили рідиною?</span><span class="lang-ru">Залили жидкостью?</span></h4>
+                <p><span class="lang-uk">Негайно вимкніть живлення та витягніть батарею! Не сушіть феном і не кладіть у рис. Чим швидше ви звернетесь до майстра, тим більше шансів врятувати материнську плату.</span><span class="lang-ru">Немедленно выключите питание и вытащите батарею! Не сушите феном и не кладите в рис. Чем быстрее вы обратитесь к мастеру, тем больше шансов спасти материнскую плату.</span></p>
             </div>
             
             <div class="sos-card">
-                <h4>Синій екран (BSOD)?</h4>
-                <p>Порада: не перезавантажувати одразу, а зробити фото помилки на телефон і відправити мені на <a href="viber://chat?number=%2B380507383133">Вайбер</a> або <a href="https://t.me/+380507383133">Телеграм</a> або на <a href="mailto:Novikov666kherson@gmail.com">пошту</a>. Це допоможе мені швидше знайти причину.</p>
+                <h4><span class="lang-uk">Синій екран (BSOD)?</span><span class="lang-ru">Синий экран (BSOD)?</span></h4>
+                <p><span class="lang-uk">Порада: не перезавантажувати одразу, а зробити фото помилки на телефон і відправити мені на <a href="viber://chat?number=%2B380507383133">Вайбер</a> або <a href="https://t.me/+380507383133">Телеграм</a> або на <a href="mailto:Novikov666kherson@gmail.com">пошту</a>. Це допоможе мені швидше знайти причину.</span><span class="lang-ru">Совет: не перезагружать сразу, а сделать фото ошибки на телефон и отправить мне на <a href="viber://chat?number=%2B380507383133">Вайбер</a> или <a href="https://t.me/+380507383133">Телеграм</a> или на <a href="mailto:Novikov666kherson@gmail.com">почту</a>. Это поможет мне быстрее найти причину.</span></p>
             </div>
 
             <div class="sos-card">
-                <h4>Комп'ютер гальмує?</h4>
-                <p>Не встановлюйте сумнівні "прискорювачі" з інтернету. Краще перевірте температуру через наш модуль діагностики нижче — можливо, потрібна термінова чистка від пилу чи заміна термопасти.</p>
+                <h4><span class="lang-uk">Комп'ютер гальмує?</span><span class="lang-ru">Компьютер тормозит?</span></h4>
+                <p><span class="lang-uk">Не встановлюйте сумнівні "прискорювачі" з інтернету. Краще перевірте температуру через наш модуль діагностики нижче — можливо, потрібна термінова чистка від пилу чи заміна термопасти.</span><span class="lang-ru">Не устанавливайте сомнительные "ускорители" из интернета. Лучше проверьте температуру через наш модуль диагностики ниже — возможно, нужна срочная чистка от пыли или замена термопасты.</span></p>
             </div>
 
             <div class="sos-card">
-                <h4>Немає інтернету?</h4>
-                <p>Вимкніть роутер з розетки на 30 секунд і увімкніть знову. Якщо не допомогло — телефонуйте, перевіримо налаштування мережі або драйвери.</p>
+                <h4><span class="lang-uk">Немає інтернету?</span><span class="lang-ru">Нет интернета?</span></h4>
+                <p><span class="lang-uk">Вимкніть роутер з розетки на 30 секунд і увімкніть знову. Якщо не допомогло — телефонуйте, перевіримо налаштування мережі або драйвери.</span><span class="lang-ru">Выключите роутер из розетки на 30 секунд и включите снова. Если не помогло — звоните, проверим настройки сети или драйверы.</span></p>
             </div>
         </div>
         
         <div style="text-align: center; margin-top: 30px;">
-            <a href="#contacts" class="btn-main" style="background: #ff4d4d; box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3);">Потрібна термінова допомога!</a>
+            <a href="#contacts" class="btn-main" style="background: #ff4d4d; box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3);"><span class="lang-uk">Потрібна термінова допомога!</span><span class="lang-ru">Нужна срочная помощь!</span></a>
         </div>
     </div>
 
     <div class="tools-area">
-        <h2>Центр діагностики (Безкоштовно)</h2>
-        <p>Скачайте наші модулі для швидкої перевірки стану вашого ПК. Вони працюють миттєво і не потребують установки.</p>
+        <h2><span class="lang-uk">Центр діагностики (Безкоштовно)</span><span class="lang-ru">Центр диагностики (Бесплатно)</span></h2>
+        <p><span class="lang-uk">Скачайте наші модулі для швидкої перевірки стану вашого ПК. Вони працюють миттєво і не потребують установки.</span><span class="lang-ru">Скачайте наши модули для быстрой проверки состояния вашего ПК. Они работают мгновенно и не требуют установки.</span></p>
         <br>
         <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-            <a href="indexWindows.hta" download="indexWindows.hta" class="btn-main btn-diag btn-hdd">💾 Тип диска (SSD/HDD)</a>
-            <a href="checkTemp.hta" download="checkTemp.hta" class="btn-main btn-diag btn-temp">🌡️ Температура</a>
-            <a href="checkSmart.hta" download="checkSmart.hta" class="btn-main btn-diag btn-smart">💽 Здоров'я диска (S.M.A.R.T)</a>
-            <a href="checkRAM.hta" download="checkRAM.hta" class="btn-main btn-diag btn-ram">🚀 Аналіз ОЗП (Пам'ять)</a>
-            <a href="checkBattery.hta" download="checkBattery.hta" class="btn-main btn-diag btn-bat">🔋 Знос батареї</a>
-            <a href="checkKey.hta" download="checkKey.hta" class="btn-main btn-diag btn-key">🔑 Вшитий ключ Windows</a>
-            <a href="checkSysInfo.hta" download="checkSysInfo.hta" class="btn-main btn-diag btn-sys">💻 Характеристики ПК</a>
+            <a href="indexWindows.hta" download="indexWindows.hta" class="btn-main btn-diag btn-hdd">💾 <span class="lang-uk">Тип диска (SSD/HDD)</span><span class="lang-ru">Тип диска (SSD/HDD)</span></a>
+            <a href="checkTemp.hta" download="checkTemp.hta" class="btn-main btn-diag btn-temp">🌡️ <span class="lang-uk">Температура</span><span class="lang-ru">Температура</span></a>
+            <a href="checkSmart.hta" download="checkSmart.hta" class="btn-main btn-diag btn-smart">💽 <span class="lang-uk">Здоров'я диска (S.M.A.R.T)</span><span class="lang-ru">Здоровье диска (S.M.A.R.T)</span></a>
+            <a href="checkRAM.hta" download="checkRAM.hta" class="btn-main btn-diag btn-ram">🚀 <span class="lang-uk">Аналіз ОЗП (Пам'ять)</span><span class="lang-ru">Анализ ОЗУ (Память)</span></a>
+            <a href="checkBattery.hta" download="checkBattery.hta" class="btn-main btn-diag btn-bat">🔋 <span class="lang-uk">Знос батареї</span><span class="lang-ru">Износ батареи</span></a>
+            <a href="checkKey.hta" download="checkKey.hta" class="btn-main btn-diag btn-key">🔑 <span class="lang-uk">Вшитий ключ Windows</span><span class="lang-ru">Вшитый ключ Windows</span></a>
+            <a href="checkSysInfo.hta" download="checkSysInfo.hta" class="btn-main btn-diag btn-sys">💻 <span class="lang-uk">Характеристики ПК</span><span class="lang-ru">Характеристики ПК</span></a>
         </div>
     </div>
 
-    <h2 style="text-align: center; margin-top: 80px;">Швидка комп'ютерна допомога: Що я роблю</h2>
+    <h2 style="text-align: center; margin-top: 80px;"><span class="lang-uk">Швидка комп'ютерна допомога: Що я роблю</span><span class="lang-ru">Скорая компьютерная помощь: Что я делаю</span></h2>
     <div class="grid" style="margin-top: 30px;">
         <div class="card" style="padding: 20px;">
-            <h3 style="font-size: 18px; margin-bottom: 10px;">💻 Установка ОС (Віндовс / Linux)</h3>
+            <h3 style="font-size: 18px; margin-bottom: 10px;">💻 <span class="lang-uk">Установка ОС (Віндовс / Linux)</span><span class="lang-ru">Установка ОС (Виндовс / Linux)</span></h3>
             <p style="font-size: 14px; color: #ccc; margin: 0;">
-                Шукаєте, де якісно робиться <strong>установка віндовс Миколаїв</strong>? Я виконую чисту установку або оновлення систем. Доступна <strong>установка Windows 10 Николаев</strong>, а також найновіша <strong>установка Windows 11 Николаев</strong> на сучасні ПК. Для специфічних завдань можлива установка <strong>Linux Николаев</strong>. Звертайтеся, якщо потрібна професійна <strong>переустановка windows Николаев</strong> без втрати ваших файлів.
+                <span class="lang-uk">Шукаєте, де якісно робиться <strong>установка віндовс Миколаїв</strong>? Я виконую чисту установку або оновлення систем. Доступна <strong>установка Windows 10 Николаев</strong>, а також найновіша <strong>установка Windows 11 Николаев</strong> на сучасні ПК. Для специфічних завдань можлива установка <strong>Linux Николаев</strong>. Звертайтеся, якщо потрібна професійна <strong>переустановка windows Николаев</strong> без втрати ваших файлів.</span>
+                <span class="lang-ru">Ищете, где качественно делается <strong>установка віндовс Миколаїв</strong>? Я выполняю чистую установку или обновление систем. Доступна <strong>установка Windows 10 Николаев</strong>, а также новейшая <strong>установка Windows 11 Николаев</strong> на современные ПК. Для специфических задач возможна установка <strong>Linux Николаев</strong>. Обращайтесь, если нужна профессиональная <strong>переустановка windows Николаев</strong> без потери ваших файлов.</span>
             </p>
         </div>
         
         <div class="card" style="padding: 20px;">
-            <h3 style="font-size: 18px; margin-bottom: 10px;">🔧 Ремонт та Налаштування ПК</h3>
+            <h3 style="font-size: 18px; margin-bottom: 10px;">🔧 <span class="lang-uk">Ремонт та Налаштування ПК</span><span class="lang-ru">Ремонт и Настройка ПК</span></h3>
             <p style="font-size: 14px; color: #ccc; margin: 0;">
-                Якщо ваш пристрій гальмує, потрібна комплексна <strong>настройка компьютера Николаев</strong>. Виконую апаратну профілактику та <strong>чистку ПК Николаев</strong> від пилу. Працюю локально: швидкий <strong>ремонт ноутбуков Корабельный район</strong> та інші райони. Вам більше не треба везти техніку в сервіс — ви можете <strong>вызвать мастера на дом Николаев</strong>. 
+                <span class="lang-uk">Якщо ваш пристрій гальмує, потрібна комплексна <strong>настройка компьютера Николаев</strong>. Виконую апаратну профілактику та <strong>чистку ПК Николаев</strong> від пилу. Працюю локально: швидкий <strong>ремонт ноутбуков Корабельный район</strong> та інші райони. Вам більше не треба везти техніку в сервіс — ви можете <strong>вызвать мастера на дом Николаев</strong>.</span>
+                <span class="lang-ru">Если ваше устройство тормозит, нужна комплексная <strong>настройка компьютера Николаев</strong>. Выполняю аппаратную профилактику и <strong>чистку ПК Николаев</strong> от пыли. Работаю локально: быстрый <strong>ремонт ноутбуков Корабельный район</strong> и другие районы. Вам больше не нужно везти технику в сервис — вы можете <strong>вызвать мастера на дом Николаев</strong>.</span>
             </p>
         </div>
 
         <div class="card" style="padding: 20px;">
-            <h3 style="font-size: 18px; margin-bottom: 10px;">⚙️ Драйвери, Софт та Мережа</h3>
+            <h3 style="font-size: 18px; margin-bottom: 10px;">⚙️ <span class="lang-uk">Драйвери, Софт та Мережа</span><span class="lang-ru">Драйверы, Софт и Сеть</span></h3>
             <p style="font-size: 14px; color: #ccc; margin: 0;">
-                Правильна <strong>установка драйверов Николаев</strong> — запорука швидкості в іграх. Допоможу підібрати софт, виконується <strong>установка программ Николаев</strong> та надійна <strong>антивирус установка Николаев</strong>. Якщо зник інтернет, допоможе <strong>настройка роутера Николаев</strong>. Також надається <strong>удаленная помощь компьютер</strong> (швидка <strong>AnyDesk помощь</strong> онлайн).
+                <span class="lang-uk">Правильна <strong>установка драйверов Николаев</strong> — запорука швидкості в іграх. Допоможу підібрати софт, виконується <strong>установка программ Николаев</strong> та надійна <strong>антивирус установка Николаев</strong>. Якщо зник інтернет, допоможе <strong>настройка роутера Николаев</strong>. Також надається <strong>удаленная помощь компьютер</strong> (швидка <strong>AnyDesk помощь</strong> онлайн).</span>
+                <span class="lang-ru">Правильная <strong>установка драйверов Николаев</strong> — залог скорости в играх. Помогу подобрать софт, выполняется <strong>установка программ Николаев</strong> и надежная <strong>антивирус установка Николаев</strong>. Если пропал интернет, поможет <strong>настройка роутера Николаев</strong>. Также предоставляется <strong>удаленная помощь компьютер</strong> (быстрая <strong>AnyDesk помощь</strong> онлайн).</span>
             </p>
         </div>
 
         <div class="card" style="padding: 20px;">
-            <h3 style="font-size: 18px; margin-bottom: 10px;">💾 Флешки, Дані та Активація</h3>
+            <h3 style="font-size: 18px; margin-bottom: 10px;">💾 <span class="lang-uk">Флешки, Дані та Активація</span><span class="lang-ru">Флешки, Данные и Активация</span></h3>
             <p style="font-size: 14px; color: #ccc; margin: 0;">
-                Видалили важливі файли? Допоможе <strong>восстановление данных с жесткого диска</strong> або флешки. Якщо система просить ключ, робиться безпечна <strong>активация виндовс</strong>. Якщо ви досвідчений користувач і хочете все зробити самі, у мене можна <strong>купить загрузочную флешку виндовс</strong> (універсальна <strong>флешка с виндовс Николаев</strong> для будь-яких ПК). Ваш надійний <strong>мастер по компьютерам Николаев</strong> завжди на зв'язку!
+                <span class="lang-uk">Видалили важливі файли? Допоможе <strong>восстановление данных с жесткого диска</strong> або флешки. Якщо система просить ключ, робиться безпечна <strong>активация виндовс</strong>. Якщо ви досвідчений користувач і хочете все зробити самі, у мене можна <strong>купить загрузочную флешку виндовс</strong> (універсальна <strong>флешка с виндовс Николаев</strong> для будь-яких ПК). Ваш надійний <strong>мастер по компьютерам Николаев</strong> завжди на зв'язку!</span>
+                <span class="lang-ru">Удалили важные файлы? Поможет <strong>восстановление данных с жесткого диска</strong> или флешки. Если система просит ключ, делается безопасная <strong>активация виндовс</strong>. Если вы опытный пользователь и хотите всё сделать сами, у меня можно <strong>купить загрузочную флешку виндовс</strong> (универсальная <strong>флешка с виндовс Николаев</strong> для любых ПК). Ваш надежный <strong>мастер по компьютерам Николаев</strong> всегда на связи!</span>
             </p>
         </div>
     </div>
 </div>
 
 <div class="footer">
-    <p>Маю великий досвід у налаштуванні софту. Працюю з будь-якими ПК та ноутбуками.</p>
-    <p>&copy; 2026 Професійна IT-допомога у Миколаєві. Всі права захищені.</p>
+    <p><span class="lang-uk">Маю великий досвід у налаштуванні софту. Працюю з будь-якими ПК та ноутбуками.</span><span class="lang-ru">Имею большой опыт в настройке софта. Работаю с любыми ПК и ноутбуками.</span></p>
+    <p><span class="lang-uk">&copy; 2026 Професійна IT-допомога у Миколаєві. Всі права захищені.</span><span class="lang-ru">&copy; 2026 Профессиональная IT-помощь в Николаеве. Все права защищены.</span></p>
 </div>
 
 <div id="emailModal" class="modal-overlay">
     <div class="modal-box">
         <span class="modal-close" onclick="closeEmailModal()">&times;</span>
-        <h3 style="margin-top:0; color:var(--accent);">Написати на пошту</h3>
-        <p style="color:#ddd; font-size:14px;">Оберіть зручний спосіб:</p>
+        <h3 style="margin-top:0; color:var(--accent);"><span class="lang-uk">Написати на пошту</span><span class="lang-ru">Написать на почту</span></h3>
+        <p style="color:#ddd; font-size:14px;"><span class="lang-uk">Оберіть зручний спосіб:</span><span class="lang-ru">Выберите удобный способ:</span></p>
         
         <div class="email-display" id="emailText">Novikov666kherson@gmail.com</div>
         
-        <button id="copyEmailBtn" class="btn-main" style="width: 100%; padding: 12px; margin-bottom: 15px; font-size: 16px;" onclick="copyEmailToClipboard()">📋 Скопіювати адресу</button>
+        <button id="copyEmailBtn" class="btn-main" style="width: 100%; padding: 12px; margin-bottom: 15px; font-size: 16px;" onclick="copyEmailToClipboard()">📋 <span class="lang-uk">Скопіювати адресу</span><span class="lang-ru">Скопировать адрес</span></button>
         
-        <a href="mailto:Novikov666kherson@gmail.com" class="btn-main" style="width: 100%; box-sizing: border-box; display: block; background: var(--email); padding: 12px; font-size: 16px; border: 1px solid rgba(255,255,255,0.1);" onclick="closeEmailModal()">📧 Відкрити в програмі</a>
+        <a href="mailto:Novikov666kherson@gmail.com" class="btn-main" style="width: 100%; box-sizing: border-box; display: block; background: var(--email); padding: 12px; font-size: 16px; border: 1px solid rgba(255,255,255,0.1);" onclick="closeEmailModal()">📧 <span class="lang-uk">Відкрити в програмі</span><span class="lang-ru">Открыть в программе</span></a>
     </div>
 </div>
 
 <a href="#contacts" class="floating-action">
-    💬 Зв'язатися
+    <span class="lang-uk">💬 Зв'язатися</span><span class="lang-ru">💬 Связаться</span>
 </a>
 
 <script>
@@ -611,17 +748,59 @@
         var btn = document.getElementById('copyEmailBtn');
         
         navigator.clipboard.writeText(email).then(function() {
-            btn.innerHTML = '✅ Скопійовано!';
+            btn.innerHTML = document.body.classList.contains('lang-uk') ? '✅ Скопійовано!' : '✅ Скопировано!';
             btn.style.background = '#28a745';
             
             setTimeout(function() {
-                btn.innerHTML = '📋 Скопіювати адресу';
+                btn.innerHTML = document.body.classList.contains('lang-uk') ? '📋 Скопіювати адресу' : '📋 Скопировать адрес';
                 btn.style.background = 'var(--accent)';
             }, 2000);
         }).catch(function(err) {
-            alert('Будь ласка, виділіть та скопіюйте адресу вручну: ' + email);
+            alert((document.body.classList.contains('lang-uk') ? 'Будь ласка, виділіть та скопіюйте адресу вручну: ' : 'Пожалуйста, выделите и скопируйте адрес вручную: ') + email);
         });
     }
+
+    function toggleTheme() {
+        document.body.classList.toggle('light-theme');
+        localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        updateThemeBtnText();
+    }
+
+    function setLang(lang) {
+        if (lang === 'ru') {
+            document.body.classList.remove('lang-uk');
+            document.body.classList.add('lang-ru');
+            localStorage.setItem('lang', 'ru');
+            document.getElementById('langRuBtn').classList.add('active-lang');
+            document.getElementById('langUkBtn').classList.remove('active-lang');
+        } else {
+            document.body.classList.remove('lang-ru');
+            document.body.classList.add('lang-uk');
+            localStorage.setItem('lang', 'uk');
+            document.getElementById('langUkBtn').classList.add('active-lang');
+            document.getElementById('langRuBtn').classList.remove('active-lang');
+        }
+        updateThemeBtnText();
+    }
+
+    function updateThemeBtnText() {
+        const isLight = document.body.classList.contains('light-theme');
+        const isUk = document.body.classList.contains('lang-uk');
+        document.getElementById('themeToggle').innerHTML = isUk ? (isLight ? '🌙 Темна' : '☀️ Світла') : (isLight ? '🌙 Тёмная' : '☀️ Светлая');
+    }
+
+    if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-theme');
+    if (localStorage.getItem('lang') === 'ru') {
+        document.body.classList.remove('lang-uk');
+        document.body.classList.add('lang-ru');
+        document.getElementById('langRuBtn').classList.add('active-lang');
+        document.getElementById('langUkBtn').classList.remove('active-lang');
+    } else {
+        document.body.classList.add('lang-uk');
+        document.getElementById('langUkBtn').classList.add('active-lang');
+        document.getElementById('langRuBtn').classList.remove('active-lang');
+    }
+    updateThemeBtnText();
 </script>
 
 </body>
