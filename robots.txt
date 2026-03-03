@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://comp-setup.github.io/Comp-setup/sitemap.xml
